@@ -15,7 +15,8 @@ export const QuizSchema = new Schema({
     theme: {
         type: String          
     }
-});
+}); 
+
 
 /*export const QuestionSchema = new Schema({
     questions: [

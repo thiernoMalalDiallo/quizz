@@ -11,22 +11,17 @@ export class RoutesUser {
         
                 /*=========================== ROUTES FOR USER =====================*/
 
-                // User detail
+                // User Authentification
                 app.route('/users/Authentification')
-                // get specific contact
                 .get(this.userController.Authentification) 
-                // Contact detail
+                // manipulate user by his id
                 app.route('/users/:userId')
                 .get(this.userController.getUserWithID) 
                 .put(this.userController.updateUser)
                 .delete(this.userController.deleteUser)
-
-                
-                // Contact 
+                // add get a user 
                 app.route('/users') 
-                // GET endpoint 
-                .get(this.userController.getUsers)        
-                // POST endpoint
+                .get(this.userController.getUsers)      
                 .post(this.userController.addNewUser)
     }
 }

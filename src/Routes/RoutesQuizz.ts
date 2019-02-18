@@ -9,15 +9,15 @@ export class RoutesQuizz {
     
     public routes(app:any){
                /*==================== ROUTES FOR QUIZ ========================*/
-
-                app.route('/quiz/:quizId')
+                //manipulate quizz by id
+                app.route('/quiz/:quizzId')
                 .get(this.quizController.getQuizWithID) 
                 .put(this.quizController.updateQuiz)
-                .delete(this.quizController.deleteQuiz)
- 
-                app.route('/quiz') 
+                .delete(this.quizController.deleteQuiz);
+                //add delete user
+                app.route('/quizz') 
                 .get(this.quizController.getAllQuiz)        
-                .post(this.quizController.addNewQuiz)
+                .post(this.quizController.addNewQuiz);
 
         
     }

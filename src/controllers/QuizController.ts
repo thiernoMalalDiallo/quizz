@@ -50,8 +50,18 @@ export class QuizController{
         }
 
         public randomQuiz(req: express.Request, res: express.Response) {           
-            
+            Quizz.find({ level: req.params.quizzLevel }, (err,quizzs) => {
+                if(err){
+                    res.status(404).json(err);
+                }
+                let random = (Math.random()*((quizzs.length-2) - 0)) + 0;
+                console.log(random);
+                res.status(200).json(quizzs[Math.trunc(random)]);
+            })
         }
         
+        public getRandom(min:any, max:any):any {
+            return Math.random() * (max - min) + min;
+        }
     }
     

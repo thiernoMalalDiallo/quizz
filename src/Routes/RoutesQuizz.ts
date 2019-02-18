@@ -19,6 +19,9 @@ export class RoutesQuizz {
                 .get(this.quizController.getQuizzs)        
                 .post(this.quizController.addNewQuizz);
 
+                app.route('/quizz/difficulty/:level')
+                .get(this.quizController.randomQuiz);
+
         
     }
 }

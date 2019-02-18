@@ -32,11 +32,21 @@ export class QuizController{
         }
 
         public updateQuiz(req: express.Request, res: express.Response) {           
-            
+            Quizz.findOneAndUpdate({ _id: req.params.quizzId }, req.body, { new: true }, (err, quizz) => {
+                if(err){
+                    res.send(err);
+                }
+                res.json(quizz);
+            });
         }
 
         public deleteQuiz(req: express.Request, res: express.Response) {           
-            
+            Quizz.remove({ _id: req.params.quizzId }, (err) => {
+                if(err){
+                    res.status(400).json(err);
+                }
+                res.status(200).json({ message: 'Successfully deleted contact!'});
+            });           
         }
 
         public randomQuiz(req: express.Request, res: express.Response) {           

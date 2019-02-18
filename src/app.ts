@@ -1,7 +1,7 @@
 import express from "express";
 import * as bodyParser from "body-parser";
 import {RoutesUser} from "./Routes/RoutesUser";
-import {RoutesQuizz} from "./Routes/RoutesQuizz";
+import {RoutesQuiz} from "./Routes/RoutesQuiz";
 import mongoose from "mongoose";
 class App {
     
@@ -10,13 +10,13 @@ class App {
     public app: express.Application;
     //routes
     public routeUser: RoutesUser = new RoutesUser();
-    public routeQuizz: RoutesQuizz= new RoutesQuizz();
+    public routeQuiz: RoutesQuiz= new RoutesQuiz();
     //
     constructor() {
         this.app = express();
         this.config();     
         this.routeUser.routes(this.app); 
-        this.routeQuizz.routes(this.app);  
+        this.routeQuiz.routes(this.app);  
         this.mongoSetup(); 
     }
 

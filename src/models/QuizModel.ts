@@ -1,10 +1,10 @@
 import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
-// class Quizz avec mongoose
+// class Quiz avec mongoose
 export const QuizSchema = new Schema({
-    QuizzName:{
+    QuizName:{
         type:String,
-        required:"give the quizz a name"
+        required:"give the quiz a name"
     },
     Questions: [
         {
@@ -32,10 +32,10 @@ export const QuizSchema = new Schema({
     ],
     Level: {
         type:String,
-        required:"give the quizz a level"
+        required:"give the quiz a level"
     },
     Theme:  {
         type:String,
-        required:"give the quizz a theme"
+        required:"give the quiz a theme"
     }          
 }); 

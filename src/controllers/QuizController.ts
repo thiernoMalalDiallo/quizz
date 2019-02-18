@@ -2,46 +2,45 @@ import * as mongoose from 'mongoose';
 import {QuizSchema} from '../models/QuizModel';
 import express from 'express';
 
-const Quizz = mongoose.model('Quiz', QuizSchema); 
+const Quiz = mongoose.model('Quiz', QuizSchema); 
 
 export class QuizController{
 
-        public addNewQuizz (req: express.Request, res: express.Response) {    
-            let  newQuizz = new Quizz(req.body);
-            newQuizz.save((err,quizz)=>{
+        public addNewQuiz (req: express.Request, res: express.Response) {    
+            let  newQuiz = new Quiz(req.body);
+            newQuiz.save((err,quiz)=>{
                 if(err){
                     res.status(400).json(res);
                 }
-                res.status(200).json(quizz);
+                res.status(200).json(quiz);
             });
         }
 
-        public getQuizzs (req: express.Request, res: express.Response) {   
-            Quizz.find({},(err,quizzs)=>{
+        public getQuizs (req: express.Request, res: express.Response) {   
+            Quiz.find({},(err,quizs)=>{
                 if(err){
                     res.status(404).json(err);
                 }
-                res.status(200).json(quizzs);
+                res.status(200).json(quizs);
             })        
             
         }
 
         public getQuizWithID (req: express.Request, res: express.Response) {  
-
-            
+            Quiz.findById(req.params.quizId)
         }
 
         public updateQuiz(req: express.Request, res: express.Response) {           
-            Quizz.findOneAndUpdate({ _id: req.params.quizzId }, req.body, { new: true }, (err, quizz) => {
+            Quiz.findOneAndUpdate({ _id: req.params.quizId }, req.body, { new: true }, (err, quiz) => {
                 if(err){
                     res.send(err);
                 }
-                res.json(quizz);
+                res.json(quiz);
             });
         }
 
         public deleteQuiz(req: express.Request, res: express.Response) {           
-            Quizz.remove({ _id: req.params.quizzId }, (err) => {
+            Quiz.remove({ _id: req.params.quizId }, (err) => {
                 if(err){
                     res.status(400).json(err);
                 }

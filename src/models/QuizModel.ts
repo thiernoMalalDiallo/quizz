@@ -16,21 +16,3 @@ export const QuizSchema = new Schema({
         type: String          
     }
 }); 
-
-
-/*export const QuestionSchema = new Schema({
-    questions: [
-        {
-            question: String,
-            possible_answers: [
-                {
-                    answer: String
-                }
-            ],
-            true_answer: String 
-        }
-    ]
-});*/
-
-
-

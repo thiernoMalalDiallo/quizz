@@ -16,8 +16,8 @@ export class RoutesQuizz {
                 .delete(this.quizController.deleteQuiz);
                 //add delete user
                 app.route('/quizz') 
-                .get(this.quizController.getAllQuiz)        
-                .post(this.quizController.addNewQuiz);
+                .get(this.quizController.getQuizzs)        
+                .post(this.quizController.addNewQuizz);
 
         
     }

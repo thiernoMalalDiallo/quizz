@@ -6,7 +6,7 @@ const Quizz = mongoose.model('Quiz', QuizSchema);
 
 export class QuizController{
 
-        public addNewQuiz (req: express.Request, res: express.Response) {              
+        public addNewQuizz (req: express.Request, res: express.Response) {              
             let  newQuizz = new Quizz(req.body);
             newQuizz.save((err,quizz)=>{
                 if(err){
@@ -16,7 +16,13 @@ export class QuizController{
             });
         }
 
-        public getAllQuiz (req: express.Request, res: express.Response) {           
+        public getQuizzs (req: express.Request, res: express.Response) {   
+            Quizz.find({},(err,quizzs)=>{
+                if(err){
+                    res.status(404).json(err);
+                }
+                res.status(200).json(quizzs);
+            })        
             
         }
 

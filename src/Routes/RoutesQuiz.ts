@@ -14,6 +14,9 @@ export class RoutesQuiz {
                 //add delete user
                 app.route('/quiz') 
                 .get(this.quizController.getQuizs)        
-                .post(this.quizController.addNewQuiz);        
+                .post(this.quizController.addNewQuiz); 
+                //choose a quiz randomly
+                app.route('/quiz/dificulty/:level')
+                .get(this.quizController.randomQuiz)
     }
 }

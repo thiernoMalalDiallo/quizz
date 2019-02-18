@@ -27,8 +27,7 @@ export class QuizController{
         }
 
         public getQuizWithID (req: express.Request, res: express.Response) {  
-
-            
+            Quizz.findById(req.params.quizzId)
         }
 
         public updateQuiz(req: express.Request, res: express.Response) {           

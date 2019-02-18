@@ -2,11 +2,8 @@ import express from "express";
 import {QuizController} from '../controllers/QuizController';
 import {UserController} from '../controllers/UserController';
 export class RoutesQuizz {
-    
-    
     public quizController:QuizController= new QuizController();
     public userController:UserController= new UserController();
-    
     public routes(app:any){
                /*==================== ROUTES FOR QUIZ ========================*/
                 //manipulate quizz by id
@@ -17,8 +14,6 @@ export class RoutesQuizz {
                 //add delete user
                 app.route('/quizz') 
                 .get(this.quizController.getQuizzs)        
-                .post(this.quizController.addNewQuizz);
-
-        
+                .post(this.quizController.addNewQuizz);        
     }
 }

@@ -1,5 +1,4 @@
-
-import * as mongoose from 'mongoose';
+/*import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 export const QuestionSchema = new Schema({
     questions: [
@@ -7,4 +6,4 @@ export const QuestionSchema = new Schema({
             question: String
         }
     ]
-});
+});*/

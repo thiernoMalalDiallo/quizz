@@ -1,5 +1,5 @@
 
-import * as mongoose from 'mongoose';
+/*import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 export const AnswerSchema = new Schema({
 
@@ -13,4 +13,4 @@ export const AnswerSchema = new Schema({
             true_answer: String 
         }
     ]
-});
+});*/

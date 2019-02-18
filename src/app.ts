@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 class App {
     
     //public mongoUrl: string = 'mongodb://localhost/Quizz';
-    private mongoUrl: string = 'mongodb://mongodb:mongo1995@ds135233.mlab.com:35233/tutomongoose'; 
+    private mongoUrl: string = 'mongodb://quizzProject:mongo1995@ds139775.mlab.com:39775/quizz'; 
     public app: express.Application;
     public route: Routes = new Routes();
     constructor() {

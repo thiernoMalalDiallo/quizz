@@ -1,15 +1,19 @@
 import * as mongoose from 'mongoose';
 import {QuizSchema} from '../models/QuizModel';
-import {QuestionController} from './QuestionController';
-import {AnswerController} from './AnswerController';
 import express from 'express';
 
-const Quiz = mongoose.model('Quiz', QuizSchema); 
+const Quizz = mongoose.model('Quiz', QuizSchema); 
 
 export class QuizController{
 
         public addNewQuiz (req: express.Request, res: express.Response) {              
-            
+            let  newQuizz = new Quizz(req.body);
+            newQuizz.save((err,quizz)=>{
+                if(err){
+                    res.status(400).json(res);
+                }
+                res.status(200).json(quizz);
+            });
         }
 
         public getAllQuiz (req: express.Request, res: express.Response) {           
@@ -17,6 +21,7 @@ export class QuizController{
         }
 
         public getQuizWithID (req: express.Request, res: express.Response) {  
+
             
         }
 

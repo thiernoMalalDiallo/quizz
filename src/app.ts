@@ -1,17 +1,22 @@
 import express from "express";
 import * as bodyParser from "body-parser";
-import {Routes} from "./Routes/Routes";
+import {RoutesUser} from "./Routes/RoutesUser";
+import {RoutesQuizz} from "./Routes/RoutesQuizz";
 import mongoose from "mongoose";
 class App {
     
     //public mongoUrl: string = 'mongodb://localhost/Quizz';
     private mongoUrl: string = 'mongodb://quizzProject:mongo1995@ds139775.mlab.com:39775/quizz'; 
     public app: express.Application;
-    public route: Routes = new Routes();
+    //routes
+    public routeUser: RoutesUser = new RoutesUser();
+    public routeQuizz: RoutesQuizz= new RoutesQuizz();
+    //
     constructor() {
         this.app = express();
         this.config();     
-        this.route.routes(this.app);  
+        this.routeUser.routes(this.app); 
+        this.routeQuizz.routes(this.app);  
         this.mongoSetup(); 
     }
 
@@ -27,7 +32,10 @@ class App {
         replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
         mongoose.Promise = global.Promise;
         mongoose.connect(this.mongoUrl,options); 
-       /* mongoose.Promise = global.Promise;
+       
+        /*
+        local mongodb
+        mongoose.Promise = global.Promise;
         mongoose.connect(this.mongoUrl,{ useNewUrlParser: true });*/    
     }
 

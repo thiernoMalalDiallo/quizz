@@ -18,9 +18,5 @@ export const UserSchema = new Schema({
     ranking: {
         type: Number,
         default:0          
-    },
-    position: {
-        type: Number,
-        default:0           
     }
 })

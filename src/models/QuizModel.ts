@@ -31,5 +31,13 @@ export const QuizSchema = new Schema({
     },
     Theme:  {
         type:String
+    },
+    creationDate:{
+        type: Date,
+        default: Date.now
+    },
+    played:{
+        type:Number,
+        default:0
     }          
 }); 

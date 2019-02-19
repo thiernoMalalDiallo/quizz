@@ -1,11 +1,11 @@
 import * as mongoose from 'mongoose';
 import {QuizSchema} from '../models/QuizModel';
 import express from 'express';
+import { Util } from './Utils';
 
 const Quiz = mongoose.model('Quiz', QuizSchema); 
 
 export class QuizController{
-
         public addNewQuiz (req: express.Request, res: express.Response) {    
             let  newQuiz = new Quiz(req.body);
             newQuiz.save((err,quiz)=>{
@@ -49,17 +49,14 @@ export class QuizController{
         }
 
         public randomQuiz(req: express.Request, res: express.Response) {           
-            Quiz.find({ level: req.params.quizzLevel }, (err,quizzs) => {
+            Quiz.find({ level: req.params.quizzLevel }, (err,quizs) => {
                 if(err){
                     res.status(404).json(err);
                 }
-                let random = (Math.random()*((quizzs.length-2) - 0)) + 0;
-                res.status(200).json(quizzs[Math.trunc(random)]);
+                let random = Util.getRandom(0,quizs.length-2);
+                res.status(200).json(quizs[random]);
             })
         }
         
-        public getRandom(min:any, max:any):any {
-            return Math.random() * (max - min) + min;
-        }
     }
     

@@ -16,7 +16,7 @@ export class RoutesQuiz {
                 .get(this.quizController.getQuizs)        
                 .post(this.quizController.addNewQuiz); 
                 //choose a quiz randomly
-                app.route('/quiz/dificulty/:level')
+                app.route('/quiz/difficulty/:level')
                 .get(this.quizController.randomQuiz)
     }
 }

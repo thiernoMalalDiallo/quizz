@@ -22,6 +22,8 @@ export class RoutesUser {
                 // add get a user 
                 app.route('/users') 
                 .get(this.userController.getUsers)      
-                .post(this.userController.addNewUser)
+                .post(this.userController.addNewUser);
+                app.route('/aaa/:userId')
+                .get(this.userController.getRanking) 
     }
 }

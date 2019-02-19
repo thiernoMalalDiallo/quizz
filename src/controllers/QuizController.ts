@@ -81,9 +81,9 @@ export class QuizController {
             res.status(200).json(quizs);
         })
     }
-        // get a list of most played quiz by diffculty 
+        // get a list of new  quiz by diffculty 
         public getNewQuizsByDifficulty(req: express.Request, res: express.Response) {
-            Quiz.find({}).sort('played').where('Level').equals(req.params.level).limit(8).exec((err, quizs) => {
+            Quiz.find({}).sort('creationDate').where('Level').equals(req.params.level).limit(8).exec((err, quizs) => {
                 if (err) {
                     res.status(500).json(err);
                 }

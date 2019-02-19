@@ -6,17 +6,25 @@ export class RoutesQuiz {
     public userController:UserController= new UserController();
     public routes(app:any){
                /*==================== ROUTES FOR QUIZ ========================*/
+               
+                //add delete user
+                app.route('/quizs') 
+                .get(this.quizController.getQuizs)        
+                .post(this.quizController.addNewQuiz); 
                 //manipulate quizz by id
-                app.route('/quiz/:quizId')
+                app.route('/quizs/:quizId')
                 .get(this.quizController.getQuizWithID) 
                 .put(this.quizController.updateQuiz)
                 .delete(this.quizController.deleteQuiz);
-                //add delete user
-                app.route('/quiz') 
-                .get(this.quizController.getQuizs)        
-                .post(this.quizController.addNewQuiz); 
                 //choose a quiz randomly
-                app.route('/quiz/difficulty/:level')
+                app.route('/quizs/difficulty/getQuiz/:level')
                 .get(this.quizController.randomQuiz)
+                // get a list of quizs by difficulty
+                app.route('/quizs/difficulty/:level').
+                get(this.quizController.getQuizsByDifficulty)
+                // get a list of quizs by difficulty
+                app.route('/quizs/difficulty/:level/mostPlayed').
+                get(this.quizController.getHotQuizsByDifficulty)
+
     }
 }

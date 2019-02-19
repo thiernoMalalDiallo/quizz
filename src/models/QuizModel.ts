@@ -3,39 +3,33 @@ const Schema = mongoose.Schema;
 // class Quiz avec mongoose
 export const QuizSchema = new Schema({
     QuizName:{
-        type:String,
-        required:"give the quiz a name"
+        type:String
     },
     Questions: [
         {
             Question: {
-                type:String,
-                required:"one or multiple questions are lacking  "
+                type:String
             },
             Possible_Answers: [
                 {
                     Possible_Answer: {
-                        type:String,
-                        required:"one or multiple possibale_answers are lacking  "
+                        type:String
                     }
                 }
             ],
             True_Answer: [
                 {
                 Answer:{
-                    type:String,
-                    required:"one or multiple answers are lacking  "
+                    type:String
                 }
             }
             ]
         }
     ],
     Level: {
-        type:String,
-        required:"give the quiz a level"
+        type:String
     },
     Theme:  {
-        type:String,
-        required:"give the quiz a theme"
+        type:String
     }          
 }); 

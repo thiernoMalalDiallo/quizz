@@ -18,5 +18,23 @@ export const UserSchema = new Schema({
     ranking: {
         type: Number,
         default:0          
-    }
+    },
+    scores : {
+        score_global: Number,
+        score_theme: [{
+            theme: String,
+            score: Number
+        }],
+        score_quiz: [{
+            id_quizz: String,
+            score: Number
+        }],
+        score_challlenge: [{
+            id_challenger: String,
+            result: String
+        }]
+    },
+    friendsList: [{
+        id_friend: String
+    }]
 })

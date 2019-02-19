@@ -62,11 +62,20 @@ export class UserController {
         });
     }
     public deleteUser(req: express.Request, res: express.Response) {
-        User.remove({ _id: req.params.contactId }, (err) => {
+        User.remove({ _id: req.params.userId }, (err) => {
             if (err) {
                 res.send(err);
             }
             res.json({ message: 'Successfully deleted contact!' });
+        });
+    }
+    public getRanking(req:express.Request,res:express.Response){
+        User.find({}).where('_id').equals(req.params.userId).select('picture UserName').exec((err,user)=>{
+            if(err){
+                res.send(err);
+            }
+            console.log(user)
+            res.json(user);
         });
     }
 }

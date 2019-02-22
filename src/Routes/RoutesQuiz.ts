@@ -3,7 +3,6 @@ import {QuizController} from '../controllers/QuizController';
 import {UserController} from '../controllers/UserController';
 export class RoutesQuiz {
     public quizController:QuizController= new QuizController();
-    public userController:UserController= new UserController();
     public routes(app:any){
                /*==================== ROUTES FOR QUIZ ========================*/
                

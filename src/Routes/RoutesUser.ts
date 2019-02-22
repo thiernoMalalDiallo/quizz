@@ -2,11 +2,7 @@ import express from "express";
 import {QuizController} from '../controllers/QuizController';
 import {UserController} from '../controllers/UserController';
 export class RoutesUser {
-    
-    
-    public quizController:QuizController= new QuizController();
     public userController:UserController= new UserController();
-    
     public routes(app:any){
         
                 /*=========================== ROUTES FOR USER =====================*/
@@ -23,7 +19,7 @@ export class RoutesUser {
                 app.route('/users') 
                 .get(this.userController.getUsers)      
                 .post(this.userController.addNewUser);
-                app.route('/aaa/:userId')
-                .get(this.userController.getRanking) 
+                /*app.route('/aaa/:userId')
+                .get(this.userController.getRanking) */
     }
 }

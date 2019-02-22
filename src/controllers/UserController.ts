@@ -54,11 +54,11 @@ export class UserController {
     }
 
     public updateUser(req: express.Request, res: express.Response) {
-        User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true }, (err, contact) => {
+        User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true }, (err, user) => {
             if (err) {
                 res.send(err);
             }
-            res.json(contact);
+            res.json(user);
         });
     }
     public deleteUser(req: express.Request, res: express.Response) {

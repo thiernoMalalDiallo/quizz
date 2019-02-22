@@ -35,6 +35,6 @@ export const UserSchema = new Schema({
         }]
     },
     friendsList: [{
-        id_friend: String
+        friendId: String
     }]
 })

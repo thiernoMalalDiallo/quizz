@@ -2,11 +2,8 @@
 import express from 'express';
 import * as mongoose from 'mongoose';
 import { UserSchema } from './../mongooseModels/UserModel';
-import { UserController } from './UserController';
-import { UserClass } from './../models/UserClass';
 const User = mongoose.model('User', UserSchema);
 export class FriendListController {
-    public userContorl: UserController = new UserController();
     // add a friend to user's friend list
     public addFriend(req: express.Request, res: express.Response) {
         User.findOneAndUpdate({ _id: req.params.userId }, { $push: { "friendsList": { "friendId": req.body.friendId } } }, (err, user) => {
@@ -17,20 +14,18 @@ export class FriendListController {
         });
     }
 
-    //get friends 
+    //get user's friends by his id, and sending him userNmae picture ranking and score
     public getFriends(req: express.Request, res: express.Response) {
 
         User.find({}).where('_id').equals(req.params.userId).select('friendsList').exec((err, friendList) => {
-            if (err) {
+            if (err) { 
                 res.json(err);
             }
             let tab:Array<any>=[]
-            console.log(friendList[0])
-            for(let i =0;i<friendList[0]['friendsList'].lenth;i++){
-                tab.push(friendList[0]['friendsList'][i]);
+            for(let i =0;i<friendList[0]['friendsList'].length;i++){
+                tab.push(friendList[0]['friendsList'][i]['friendId']);
             }
-            console.log(tab)
-            User.find({}).where('_id').in(tab).exec((err,friends)=>{
+            User.find({}).where('_id').in(tab).select('userName picture ranking scores').exec((err,friends)=>{
                 if(err){
                     res.json(err);
                 }
@@ -38,10 +33,10 @@ export class FriendListController {
             });
         })
     }
-
+    // deleting a user's friend by his id and his friend id "friendship have experation time huh"
     public deleteFriend(req: express.Request, res: express.Response) {
 
-        User.find({}).where('_id').equals(req.params.userId).select('friendsList').exec((err, user) => {
+        User.findOneAndUpdate({ _id: req.params.userId }, { $pull: { "friendsList": { "friendId": req.body.friendId } } }).exec((err, user) => {
             if (err) {
                 res.json(err);
             }

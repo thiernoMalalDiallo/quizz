@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { UserSchema } from '../models/UserModel';
+import { UserSchema } from '../mongooseModels/UserModel';
 import express from 'express';
 
 const User = mongoose.model('User', UserSchema);

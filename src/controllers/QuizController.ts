@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { QuizSchema } from '../models/QuizModel';
+import { QuizSchema } from '../mongooseModels/QuizModel';
 import express from 'express';
 import { Util } from './Utils';
 

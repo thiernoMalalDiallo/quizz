@@ -5,6 +5,6 @@ export class RoutesFriendList{
     public routes(app:express.Application){
         app.route('/friendList/:userId').
         post(this.friendListContorller.addFriend).
-        get();
+        get(this.friendListContorller.getFriends);
     }
 }

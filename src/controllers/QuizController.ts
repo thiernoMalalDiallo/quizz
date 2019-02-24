@@ -8,6 +8,7 @@ const Quiz = mongoose.model('Quiz', QuizSchema);
 export class QuizController {
     // create a new quiz
     public addNewQuiz(req: express.Request, res: express.Response) {
+        req.body['image']="D:/nodeJs/quizz/src/assets/"+req.body['theme']+".png";
         let newQuiz = new Quiz(req.body);
         newQuiz.save((err, quiz) => {
             if (err) {
@@ -18,6 +19,7 @@ export class QuizController {
     }
     // get all guizs
     public getQuizs(req: express.Request, res: express.Response) {
+        console.log(require('path').dirname('./../mongooseModels/QuizModel'))
         Quiz.find({}, (err, quizs) => {
             if (err) {
                 res.status(404).json(err);

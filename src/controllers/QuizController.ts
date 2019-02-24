@@ -55,7 +55,7 @@ export class QuizController {
     }
     // get a random quiz in a specifc difficulty 
     public randomQuiz(req: express.Request, res: express.Response) {
-        Quiz.find({ level: req.params.quizzLevel }, (err, quizs) => {
+        Quiz.find({ level: req.params.quizLevel }, (err, quizs) => {
             if (err) {
                 res.status(404).json(err);
             }

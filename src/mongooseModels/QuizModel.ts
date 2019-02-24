@@ -2,42 +2,35 @@ import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 // class Quiz avec mongoose
 export const QuizSchema = new Schema({
-    QuizName:{
-        type:String
+    quizName: {
+        type: String
     },
-    Questions: [
+    image: {
+        type: String
+    },
+    questionsResponse: [
         {
-            Question: {
-                type:String
-            },
-            Possible_Answers: [
-                {
-                    Possible_Answer: {
-                        type:String
-                    }
-                }
-            ],
-            True_Answer: [
-                {
-                Answer:{
-                    type:String
-                }
-            }
-            ]
+            question:String,
+            response1:String,
+            response2:String,
+            response3:String,
+            response4:String
         }
     ],
-    Level: {
-        type:String
+    answers:[]
+    ,
+    level: {
+        type: String
     },
-    Theme:  {
-        type:String
+    theme: {
+        type: String
     },
-    creationDate:{
+    creationDate: {
         type: Date,
         default: Date.now
     },
-    played:{
-        type:Number,
-        default:0
-    }          
+    played: {
+        type: Number,
+        default: 0
+    }
 }); 

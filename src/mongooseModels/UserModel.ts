@@ -20,7 +20,7 @@ export const UserSchema = new Schema({
         default:0          
     },
     scores : {
-        score_global: Number,
+        score_global: {type:Number,default:0},
         score_theme: [{
             theme: String,
             score: Number

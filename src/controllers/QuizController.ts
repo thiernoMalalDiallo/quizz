@@ -2,13 +2,14 @@ import * as mongoose from 'mongoose';
 import { QuizSchema } from '../mongooseModels/QuizModel';
 import express from 'express';
 import { Util } from './Utils';
+const path = require("path");
 
 const Quiz = mongoose.model('Quiz', QuizSchema);
 
 export class QuizController {
     // create a new quiz
     public addNewQuiz(req: express.Request, res: express.Response) {
-        req.body['image']="D:/nodeJs/quizz/src/assets/"+req.body['theme']+".png";
+        req.body['image'] = "D:/nodeJs/quizz/src/assets/" + req.body['theme'] + ".png";
         let newQuiz = new Quiz(req.body);
         newQuiz.save((err, quiz) => {
             if (err) {
@@ -57,40 +58,45 @@ export class QuizController {
     }
     // get a random quiz in a specifc difficulty 
     public randomQuiz(req: express.Request, res: express.Response) {
-        Quiz.find({ level: req.params.quizLevel }, (err, quizs) => {
+        Quiz.find({ level: req.params.level }, (err, quizs) => {
             if (err) {
                 res.status(404).json(err);
             }
-            let random = Util.getRandom(0, quizs.length - 2);
+            let random = Util.getRandom(quizs.length);
             res.status(200).json(quizs[random]);
         })
     }
     // get a list of quiz by diffculty 
     public getQuizsByDifficulty(req: express.Request, res: express.Response) {
-        Quiz.find({}).where('Level').equals(req.params.level).exec((err, quizs) => {
+        Quiz.find({}).where('level').equals(req.params.level).exec((err, quizs) => {
             if (err) {
                 res.status(500).json(err);
             }
             res.status(200).json(quizs);
         })
     }
-    // get a list of most played quiz by diffculty 
-    public getHotQuizsByDifficulty(req: express.Request, res: express.Response) {
-        Quiz.find({}).sort('played').where('Level').equals(req.params.level).limit(8).exec((err, quizs) => {
+    // get a list of most played quiz
+    public getHotQuizs(req: express.Request, res: express.Response) {
+        Quiz.find({}).sort({'played': -1}).limit(5).exec((err, quizs) => {
             if (err) {
                 res.status(500).json(err);
             }
             res.status(200).json(quizs);
         })
     }
-        // get a list of new quiz by diffculty 
-        public getNewQuizsByDifficulty(req: express.Request, res: express.Response) {
-            Quiz.find({}).sort('creationDate').where('Level').equals(req.params.level).limit(8).exec((err, quizs) => {
-                if (err) {
-                    res.status(500).json(err);
-                }
-                res.status(200).json(quizs);
-            })
-        }
+    // get a list of new quiz
+    public getNewQuizs(req: express.Request, res: express.Response) {
+        Quiz.find({}).sort('creationDate').limit(5).exec((err, quizs) => {
+            if (err) {
+                res.status(500).json(err);
+            }
+            res.status(200).json(quizs);
+        })
+    }
+
+    // ce n'es pas sa palce, il vaut mieux créer un controller que pour les images je pense...
+    public getImage(req: express.Request, res: express.Response){
+        res.sendFile(path.join(__dirname, "../assets/"+req.params.image+".png"));
+    }
 }
 

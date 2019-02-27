@@ -22,9 +22,9 @@ export class FriendListController {
                 res.json(err);
             }
             let tab:Array<any>=[]
-            for(let i =0;i<friendList[0]['friendsList'].length;i++){
+            /*for(let i =0;i<friendList[0]['friendsList'].length;i++){
                 tab.push(friendList[0]['friendsList'][i]['friendId']);
-            }
+            }*/
             User.find({}).where('_id').in(tab).select('userName picture ranking scores').exec((err,friends)=>{
                 if(err){
                     res.json(err);

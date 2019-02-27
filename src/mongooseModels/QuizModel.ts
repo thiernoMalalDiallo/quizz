@@ -8,7 +8,7 @@ export const QuizSchema = new Schema({
     image: {
         type: String
     },
-    questionsResponse: [
+    questionsResponses: [
         {
             question:String,
             response1:String,

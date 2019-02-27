@@ -7,12 +7,17 @@ const User = mongoose.model('User', UserSchema);
 export class UserController {
 
     public addNewUser(req: express.Request, res: express.Response) {
-        User.find({ UserName: req.body.UserName }, (err, user) => {
+        User.find({ userName: req.body.userName }, (err, user) => {
             if (err) {
                 console.log(err);
             }
-            console.log(
+            console.log( "user length: " +
                 user.length);
+            // faut faire une requete pour vérifier si l'username existe ou non
+            // user.length est forcement > 0 à partir du moment ou on a quelque chose dans le corps de la requette HTTP
+            // c'est ici qu'il faut appeler la fonction prenant en parametre l'username et vérifier si il existe ou pas
+            // elle renvoie un boolean, ça donne un truc du genre: if (!usernameExist(Username)){ ... } 
+            // else {res.status(409).json(user);
             if (user.length == 0) {
                 let newUser = new User(req.body);
                 newUser.save((err, userAdd) => {
@@ -20,7 +25,7 @@ export class UserController {
                         res.send(err);
                     }
                     console.log(userAdd);
-                    res.status(201).json(userAdd);
+                    res.status(201).json(newUser);
                 });
             }
             else {

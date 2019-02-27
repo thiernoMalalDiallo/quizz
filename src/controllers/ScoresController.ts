@@ -30,7 +30,7 @@ export class ScoresController{
             res.status(200).json(globalScore);
         })
     }
-    // update Global_score by user's id
+    // update score_quiz by user's id
     public updateScore_quiz(req:express.Request,res:express.Response):any{
         User.findByIdAndUpdate(req.params.userId,{$set:{'scores.score_quiz':req.body.score_quiz}}).exec((err,score_quiz)=>{
             if(err){
@@ -44,7 +44,7 @@ export class ScoresController{
         User.find({}).where("_id").equals(req.params.userId).select('scores.score_quiz').exec((err,score_quiz)=>{
             if(err){
                 res.status(500).json(err);
-            }
+            } 
             res.status(200).json(score_quiz);
         })
     }

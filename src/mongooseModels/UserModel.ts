@@ -27,7 +27,8 @@ export const UserSchema = new Schema({
         }],
         score_quiz: [{
             id_quizz: String,
-            score: Number
+            score: Number,
+            last_played:Date
         }],
         score_challlenge: [{
             id_challenger: String,

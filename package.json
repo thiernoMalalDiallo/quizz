@@ -25,5 +25,9 @@
   },
   "devDependencies": {
     "@types/mongoose": "^5.3.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thiernoMalalDiallo/quizz"
   }
 }

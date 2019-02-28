@@ -1,12 +1,13 @@
 import express from "express";
 import {QuizController} from '../controllers/QuizController';
 import {UserController} from '../controllers/UserController';
+
 export class RoutesQuiz {
     public quizController:QuizController= new QuizController();
     public routes(app:any){
                /*==================== ROUTES FOR QUIZ ========================*/
                
-                //add get user
+                //add get quiz
                 app.route('/quizs') 
                 .get(this.quizController.getQuizs)        
                 .post(this.quizController.addNewQuiz); 
@@ -19,19 +20,21 @@ export class RoutesQuiz {
                 .put(this.quizController.updateQuiz)
                 .delete(this.quizController.deleteQuiz);
                 //choose a quiz randomly
-                app.route('/quizs/difficulty/getQuiz/:level')
+                app.route('/quizs/difficulty/random/:level')
                 .get(this.quizController.randomQuiz)
                 // get a list of quizs by difficulty
-                app.route('/quizs/difficulty/:level').
-                get(this.quizController.getQuizsByDifficulty)
+                app.route('/quizs/difficulty/:level')
+                .get(this.quizController.getQuizsByDifficulty)
                 // get a list of quizs by most played 
-                app.route('/quizs/difficulty/:level/mostPlayed').
-                get(this.quizController.getHotQuizsByDifficulty)
-                
+                app.route('/quizs/mostPlayed/topFive')
+                .get(this.quizController.getHotQuizs)
                 // get a list of new quiz
-                app.route('/quizs/difficulty/:level/new').
-                get(this.quizController.getNewQuizsByDifficulty)
-                
+                app.route('/quizs/new/fiveLast')
+                .get(this.quizController.getNewQuizs)
+
+                // ce n'es pas sa palce, il vaut mieux créer des routes que pour les images je pense...
+                app.route('/logo/:image').
+                get(this.quizController.getImage)
 
     }
 }

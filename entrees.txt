@@ -26,20 +26,167 @@ registration :
 
 play :
     play random :
-        Entrees : niveau de difficulté
-        Sortie :  if exist => un quizz sinon not exist
+        Entrees : userId : http://127.0.0.1:8000/quizs/random/5c72c029bd70084bb4ac0f89
+        Sortie :  if exist 200 
+            result:                {
+                        "answers": [
+                            [
+                                2
+                            ],
+                            [
+                                0,
+                                3
+                            ],
+                            [
+                                3
+                            ],
+                            [
+                                2,
+                                0
+                            ],
+                            [
+                                1
+                            ],
+                            [
+                                2
+                            ],
+                            [
+                                2
+                            ],
+                            [
+                                3,
+                                0
+                            ],
+                            [
+                                1,
+                                2
+                            ],
+                            [
+                                3
+                            ]
+                        ],
+                        "played": 0,
+                        "_id": "5c72b7126cc7633cd4898490",
+                        "image": "ruby",
+                        "questionsResponse": [
+                            {
+                                "_id": "5c72b7126cc7633cd489849a",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898499",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898498",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898497",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898496",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898495",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898494",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898493",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898492",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            },
+                            {
+                                "_id": "5c72b7126cc7633cd4898491",
+                                "question": "Question 1 Torqr quis nec, tincid unt malesuada id cubilTorqtor quis nec, tincidunt malesuada id cubilTorqrTorqrTorqrTorqrTorqr quis nec, tincidunt malesuada id",
+                                "response1": " Q1 Torqr quis nec,",
+                                "response2": " Q1 Torqr quis nec,",
+                                "response3": " Q1 Torqr quis nec,",
+                                "response4": " Q1 Torqr quis nec,"
+                            }
+                        ],
+                        "level": "hard",
+                        "theme": "ruby",
+                        "creationDate": "2019-02-24T15:24:02.368Z",
+                        "__v": 0,
+                        "key": "2",
+                        "questionsResponses": []
+                    }
+            => un quizz sinon not exist 404 "resource not found"
     most played :
-        Entrees : id_user
+        Entrees : id_user, quantity : http://127.0.0.1:8000/quizs/mostPlayed/5c72c029bd70084bb4ac0f89?quantity=2
+        
         sortie : image, nom et theme des quizz contraintes : pas afficher un jeu qui a deja ete jouer avant 1 semaine
-    recommended games :
-        Entrees : id_user
+            result: [
+                {
+                    "_id": "5c72c05e9438a11e08839123",
+                    "image": "android",
+                    "theme": "android"
+                },
+                {
+                    "_id": "5c72b7126cc7633cd4898490",
+                    "image": "ruby",
+                    "theme": "ruby"
+                }
+            ]
+    recommended games : (besion de trouver une solution optimal)
+        Entrees : id_user,quantity
         sortie : image, nom et theme des quizz
+        
     new games :
-        Entrees : id_user
+        Entrees : id_user, quantity : http://127.0.0.1:8000/quizs/new/5c72c029bd70084bb4ac0f89?quantity=2
         sortie : image, nom et theme des quizz
+            result: same as before
+
     games par theme et difficulté:
-        Entrees : nom du theme et niveau de difficulté
+        Entrees : userId, level, quantity : http://127.0.0.1:8000/quizs/difficulty/5c72c029bd70084bb4ac0f89?quantity=1&level=easy
         sortie : image et nom des quizz
+            result: same as before
 achievements :
 
     Entrees : id_user

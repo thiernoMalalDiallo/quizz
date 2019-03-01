@@ -39,7 +39,7 @@ export class ScoresController{
             res.status(200).json();
         })
     }
-    // get global_score by user's id
+    // get global_quiz by user's id
     public getScore_quiz(req:express.Request,res:express.Response):any{
         User.find({}).where("_id").equals(req.params.userId).select('scores.score_quiz').exec((err,score_quiz)=>{
             if(err){

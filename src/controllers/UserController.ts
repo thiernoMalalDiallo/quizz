@@ -57,7 +57,7 @@ export class UserController {
             }
             else{
                 if( user==null){
-                    res.status(401).json("authentication failed")
+                    res.status(401).json({message:"authentication failed"})
                 }
                 else{
                 res.status(200).json(user);

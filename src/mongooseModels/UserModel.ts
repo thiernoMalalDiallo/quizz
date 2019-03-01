@@ -23,7 +23,11 @@ export const UserSchema = new Schema({
         score_global: {type:Number,default:0},
         score_theme: [{
             theme: String,
-            score: Number
+            score: Number,
+            numberOfTrophy:{
+                type:Number,
+                default:0
+            }
         }],
         score_quiz: [{
             id_quizz: String,

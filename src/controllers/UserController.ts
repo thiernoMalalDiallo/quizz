@@ -50,11 +50,19 @@ export class UserController {
         });
     }
     public Authentification(req: express.Request, res: express.Response) {
-        User.findOne({ UserName: req.body.Username, Password: req.body.Password }, (err, user) => {
+        User.findOne({ userName: req.query.username, password: req.query.password }, (err, user) => {
+            
             if (err) {
                 res.send(err);
             }
-            res.json(user);
+            else{
+                if( user==null){
+                    res.status(401).json("authentication failed")
+                }
+                else{
+                res.status(200).json(user);
+            }
+            }
         });
     }
 

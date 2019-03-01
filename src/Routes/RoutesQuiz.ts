@@ -30,7 +30,7 @@ export class RoutesQuiz {
             .get(this.quizController.getNewQuizs)
         // get a list of recommended quizs for a user  
         app.route('/quizs/recommended/:userId')
-            .get(this.quizController.getHotQuizs)
+            .get(this.quizController.getRecommendedQuizs)
         // ce n'es pas sa palce, il vaut mieux créer des routes que pour les images je pense...
         app.route('/logo/:image').
             get(this.quizController.getImage)

@@ -1,10 +1,11 @@
 import express from "express";
+import mongoose from "mongoose";
 import * as bodyParser from "body-parser";
 import {RoutesUser} from "./Routes/RoutesUser";
 import {RoutesQuiz} from "./Routes/RoutesQuiz";
 import { RoutesFriendList } from "./Routes/RoutesFriendList";
-import mongoose from "mongoose";
 import { RoutesScore } from "./Routes/RoutesScore";
+import{RoutesChallenge} from "./Routes/RoutesChallenge"
 class App {
     
     //public mongoUrl: string = 'mongodb://localhost/Quizz';
@@ -13,16 +14,18 @@ class App {
     //routes
     public routeUser: RoutesUser = new RoutesUser();
     public routeQuiz: RoutesQuiz= new RoutesQuiz();
-    public routFriendList: RoutesFriendList=new RoutesFriendList();
-    public routScore: RoutesScore=new RoutesScore();
+    public routeFriendList: RoutesFriendList=new RoutesFriendList();
+    public routeScore: RoutesScore=new RoutesScore();
+    public routeChallenge:RoutesChallenge= new RoutesChallenge();
     //
     constructor() {
         this.app = express();
         this.config();     
         this.routeUser.routes(this.app); 
         this.routeQuiz.routes(this.app);  
-        this.routFriendList.routes(this.app);
-        this.routScore.routes(this.app);
+        this.routeFriendList.routes(this.app);
+        this.routeScore.routes(this.app);
+        this.routeChallenge.routes(this.app)
         this.mongoSetup(); 
     }
 

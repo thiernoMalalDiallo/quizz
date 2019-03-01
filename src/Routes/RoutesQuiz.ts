@@ -19,7 +19,7 @@ export class RoutesQuiz {
                 .put(this.quizController.updateQuiz)
                 .delete(this.quizController.deleteQuiz);
                 //choose a quiz randomly
-                app.route('/quizs/difficulty/getQuiz/:level')
+                app.route('/quizs/randomQuiz')
                 .get(this.quizController.randomQuiz)
                 // get a list of quizs by difficulty
                 app.route('/quizs/difficulty/:level').

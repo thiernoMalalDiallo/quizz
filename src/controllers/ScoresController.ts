@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
-import {UserSchema} from './../mongooseModels/UserModel'
+import {UserSchema} from './../mongooseModels/UserModel';
 const User=mongoose.model('User',UserSchema);
 export class ScoresController{
     // get all the scores of user by id

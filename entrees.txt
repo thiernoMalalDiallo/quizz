@@ -1,7 +1,23 @@
 Authentification :
 
-    Entrees : username, password
-    Sortie :  si c'est ok => 200 sinon loging or password incorrect (500)
+    Entrees : username, password : http://localhost:8000/users/Authentification?username=yahya&password=barzizoui
+    Sortie :  si c'est ok => status 200 et reponse
+                            {
+                "scores": {
+                    "score_global": 50,
+                    "score_theme": [],
+                    "score_quiz": [],
+                    "score_challlenge": []
+                },
+                "ranking": 0,
+                "_id": "5c72a1731a22f925583c49f0",
+                "userName": "yahya",
+                "password": "barzizoui",
+                "picture": "barzizouiyahya@gmail.com",
+                "friendsList": [],
+                "__v": 0
+            }
+            sinon authentication failed status (401)
 
 registration :
 
@@ -91,3 +107,5 @@ fin de jeu :
     sortie : ok (200)
 
 
+User : CRUD
+Quizz : CRUD

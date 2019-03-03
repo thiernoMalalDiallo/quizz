@@ -175,7 +175,7 @@ play :
                 }
             ]
     recommended games : (besion de trouver une solution optimal)
-        Entrees : id_user,quantity
+        Entrees : id_user,quantity :http://127.0.0.1:8000/quizs/recommended/5c794522677f120920e0574e?quantity=1&level=easy
         sortie : image, nom et theme des quizz
         
     new games :

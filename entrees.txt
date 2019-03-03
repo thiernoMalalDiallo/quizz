@@ -1,4 +1,4 @@
-Authentification :
+﻿Authentification :
 
     Entrees : username, password : http://localhost:8000/users/Authentification?username=yahya&password=barzizoui
     Sortie :  si c'est ok => status 200 et reponse
@@ -188,9 +188,12 @@ play :
         sortie : image et nom des quizz
             result: same as before
 achievements :
-
-    Entrees : id_user
-    Sortie :  if exist => list(achievement) sinon not archivements
+	enregistrer :
+	    Entrees : id_user, theme, score
+	    sortie : ok (200)
+	Affichage :
+	    Entrees : id_user
+    	Sortie :  if exist => list(achievement) sinon not archivements
 
 Challenge :
     défi du jour :

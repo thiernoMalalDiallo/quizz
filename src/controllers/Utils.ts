@@ -1,14 +1,6 @@
-import * as express from 'express';
-import * as mongoose from 'mongoose';
-import {UserSchema} from './../mongooseModels/UserModel';
-import { QuizSchema } from '../mongooseModels/QuizModel';
+var crypto = require('crypto');
 
-const Quiz = mongoose.model('Quiz', QuizSchema);
-const User=mongoose.model('User',UserSchema);
-export class Utility{
-    constructor(){
-
-    }
+export class Util{
 // send a random number to be used
     public static getRandom(length:any):any {
         // valeur attendu : [0, length[
@@ -20,53 +12,35 @@ export class Utility{
         // User.findOne({}).where("_id").equals(req.params.userId).select('scores.score_quiz').exec((err, score_quiz) => {
         //     if (err) {
 
-        //         res.status(500).json({message:err})
-        //     }
-        //     else {
-        //         if (score_quiz == null || score_quiz.length == 0)
-        //             tab = [];
-        //         else {
-        //             var fields = score_quiz["scores"]["score_quiz"];
-        //             for (let i = 0; i < fields.length; i++) {
-        //                 if(new Date(new Date().setDate(new Date().getDate()-5))<fields[i]['last_played'])
-        //                     {tab.push(fields[i]['id_quizz']);
-        //                         console.log(fields);
-        //                     } 
-        //             }
-        //             console.log(tab)
-                    
-        //         }
+    public static getNumberAchievements(Achievement:any, userId:any, theme:any){
+        Achievement.findOne({}).where('user_id').equals(userId).where('theme').equals(theme).select('number_achievements').exec((err:any,achievement:any)=>{
+            if(err){
+                return err;
+            }
 
-
-
-
-
-
-
-
-        //     }
-
-        // });
+                return achievement;
+            }); 
     }
-    
-    public static getMostPlayedQuizThemeForUser(req:express.Request,res:express.Response):any{
-        // User.findOne({}).where("_id").equals(req.query.userId)
-        // .select('scores.score_quiz').exec((err,score_quiz)=>{
-        //     if(err){
-        //         res.status(500).json({message:err});
-        //     } 
-        //     else{
-        //     if(score_quiz==null || score_quiz.length==0)
-        //         return [];
-        //     else 
-        //         {
-        //         var fields = score_quiz[0]["score_quiz"];
-        //         let tab=[]
-        //         for(let i=0;i<fields.length;i++){
-        //             tab.push(fields[i]["id_quizz"]);
-        //         }
-        //         }
-        //     }
-        // });
+
+    public static isExistAchievement(Achievement:any, userId:any, theme:any){
+        var result;
+        Achievement.find({}).where('user_id').equals(userId).where('theme').equals(theme).select('number_achievements').exec((err:any,achievement:any)=>{
+            if(err){
+                return err;
+            }
+                result = achievement;
+            }); 
     }
+
+    /**
+     * Hash and salt password with SHA512 algorithm
+     * @param {String} password 
+     */
+    public static hashPassword (password:any) {
+        var salt= 'Spiderman';
+        var hash= crypto.createHmac('sha512', salt); // Hashing algorithm sha512
+        hash.update(password);
+        return hash.digest('hex');
+    }
+
 }

@@ -2,7 +2,9 @@ import express from "express";
 import * as bodyParser from "body-parser";
 import {RoutesUser} from "./Routes/RoutesUser";
 import {RoutesQuiz} from "./Routes/RoutesQuiz";
+import {RoutesAchievement} from "./Routes/RoutesAchievements";
 import { RoutesFriendList } from "./Routes/RoutesFriendList";
+import { RoutesNotification } from "./Routes/RoutesNotification";
 import mongoose from "mongoose";
 import { RoutesScore } from "./Routes/RoutesScore";
 class App {
@@ -12,17 +14,21 @@ class App {
     public app: express.Application;
     //routes
     public routeUser: RoutesUser = new RoutesUser();
-    public routeQuiz: RoutesQuiz= new RoutesQuiz();
-    public routFriendList: RoutesFriendList=new RoutesFriendList();
-    public routScore: RoutesScore=new RoutesScore();
+    public routeQuiz: RoutesQuiz = new RoutesQuiz();
+    public routeFriendList: RoutesFriendList = new RoutesFriendList();
+    public routeScore: RoutesScore = new RoutesScore();
+    public routeAchievement : RoutesAchievement = new RoutesAchievement();
+    public routeNotification : RoutesNotification = new RoutesNotification();
     //
     constructor() {
         this.app = express();
         this.config();     
         this.routeUser.routes(this.app); 
-        this.routeQuiz.routes(this.app);  
-        this.routFriendList.routes(this.app);
-        this.routScore.routes(this.app);
+        this.routeQuiz.routes(this.app); 
+        this.routeFriendList.routes(this.app);
+        this.routeScore.routes(this.app);
+        this.routeAchievement.routes(this.app);
+        this.routeNotification.routes(this.app);
         this.mongoSetup(); 
     }
 

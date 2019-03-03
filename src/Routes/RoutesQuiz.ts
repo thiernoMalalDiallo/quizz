@@ -1,6 +1,4 @@
-import express from "express";
 import {QuizController} from '../controllers/QuizController';
-import {UserController} from '../controllers/UserController';
 
 export class RoutesQuiz {
     public quizController:QuizController= new QuizController();

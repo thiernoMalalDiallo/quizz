@@ -8,8 +8,8 @@ export class RoutesUser {
                 /*=========================== ROUTES FOR USER =====================*/
 
                 // User Authentification
-                app.route('/users/Authentification')
-                .get(this.userController.Authentification) 
+                app.route('/users/authentication')
+                .post(this.userController.authentication) 
                 // manipulate user by his id
                 app.route('/users/:userId')
                 .get(this.userController.getUserWithID) 
@@ -19,6 +19,9 @@ export class RoutesUser {
                 app.route('/users') 
                 .get(this.userController.getUsers)      
                 .post(this.userController.addNewUser);
+                // Delete all users
+                app.route('/users')
+                .delete(this.userController.deleteAllUser);
                 /*app.route('/aaa/:userId')
                 .get(this.userController.getRanking) */
     }

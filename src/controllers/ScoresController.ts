@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
-import {UserSchema} from './../mongooseModels/UserModel'
+import {UserSchema} from './../mongooseModels/UserModel';
 const User=mongoose.model('User',UserSchema);
 export class ScoresController{
     // get all the scores of user by id
@@ -39,7 +39,7 @@ export class ScoresController{
             res.status(200).json();
         })
     }
-    // get global_score by user's id
+    // get global_quiz by user's id
     public getScore_quiz(req:express.Request,res:express.Response):any{
         User.find({}).where("_id").equals(req.params.userId).select('scores.score_quiz').exec((err,score_quiz)=>{
             if(err){

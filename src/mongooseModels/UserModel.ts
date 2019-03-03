@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const UserSchema = new Schema({
-    userName: {
+    username: {
         type: String,
         required: 'Enter a first name'
     },
@@ -23,7 +23,11 @@ export const UserSchema = new Schema({
         score_global: {type:Number,default:0},
         score_theme: [{
             theme: String,
-            score: Number
+            score: Number,
+            numberOfTrophy:{
+                type:Number,
+                default:0
+            }
         }],
         score_quiz: [{
             id_quizz: String,

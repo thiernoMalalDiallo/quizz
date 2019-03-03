@@ -81,14 +81,12 @@ export class QuizController {
                     }
 
                 }
-
-
                 Quiz.find({}).where("_id").nin(tab).where("level").equals(req.query.level).exec((err, quizs) => {
                     if (err) {
                         res.status(500).json({ message: err });
                     }
                     if (quizs.length == 0 || quizs == null)
-                        res.status(404).json({ message: "resource not found" })
+                        res.status(404).json()
                     let random = Util.getRandom(quizs.length);
                     res.status(200).json(quizs[random]);
                 });
@@ -120,7 +118,7 @@ export class QuizController {
                 }
 
                 Quiz.find({}).where('level').equals(req.query.level).where("_id").nin(tab)
-                    .limit(+req.query.quantity).select('quizName image theme').exec((err, quizs) => {
+                    .limit(+req.query.quantity).exec((err, quizs) => {
                         if (err) {
                             res.status(500).json({ message: err });
                         }
@@ -157,7 +155,7 @@ export class QuizController {
 
 
                 Quiz.find({}).where("_id").nin(tab).sort({ 'played': -1 })
-                    .limit(+req.query.quantity).select('quizName image theme').exec((err, quizs) => {
+                    .limit(+req.query.quantity).exec((err, quizs) => {
                         if (err) {
                             res.status(500).json({ message: err });
                         }
@@ -184,19 +182,26 @@ export class QuizController {
                 else {
                     var fields = score_quiz["scores"]["score_theme"];
                     for (let i = 0; i < fields.length; i++) {
-                            tab.push(fields[i]['theme']);
+                        tab.push(fields[i]['theme']);
                     }
                     console.log(tab)
                 }
-                Quiz.find().where("theme").in(tab).limit(+req.query.quantity).select('quizName image theme')
-                .exec((err,quiz)=>{
-                    if (err){
-                        res.status(500).json({message:err.toString()});
-                    }
-                    else{
-                        res.status(201).json(quiz);
-                    }
-                });
+                Quiz.find().where("theme").in(tab).limit(+req.query.quantity)
+                    .exec((err, quiz) => {
+                        if (err) {
+                            res.status(500).json({ message: err.toString() });
+                        }
+                        else if (quiz.length == 0 ) {
+                            Quiz.find({}, (err, quizs) => {
+                                if (err) {
+                                    res.status(404).json(err);
+                                }
+                                res.status(200).json(quizs);
+                            })   
+                        } else {
+                            res.status(201).json(quiz);
+                        }
+                    });
             }
 
         });
@@ -222,7 +227,7 @@ export class QuizController {
                     }
 
                 }
-                Quiz.find({}).where("_id").nin(tab).sort('creationDate').limit(+req.query.quantity).select('quizName image theme')
+                Quiz.find({}).where("_id").nin(tab).sort('creationDate').limit(+req.query.quantity)
                     .exec((err, quizs) => {
                         if (err) {
                             res.status(500).json({ message: err });

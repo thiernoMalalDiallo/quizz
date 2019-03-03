@@ -6,7 +6,7 @@ export class Util{
         // valeur attendu : [0, length[
         return Math.trunc(Math.random() * Math.trunc(length));
     }
-   // public static getexcludedQuizId(req:express.Request,res:express.Response):any{
+    //public static getexcludedQuizId(req:express.Request,res:express.Response):any{
         // var tab: Array<any> = [];
         // var date:String= moment().subtract(5, 'days').format('YYYY-MM-DD').toString()+"";
         // User.findOne({}).where("_id").equals(req.params.userId).select('scores.score_quiz').exec((err, score_quiz) => {

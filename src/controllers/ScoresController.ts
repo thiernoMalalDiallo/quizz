@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 import {UserSchema} from './../mongooseModels/UserModel';
+import moment from 'moment';
 const User=mongoose.model('User',UserSchema);
 export class ScoresController{
     // get all the scores of user by id
@@ -32,6 +33,7 @@ export class ScoresController{
     }
     // update score_quiz by user's id
     public updateScore_quiz(req:express.Request,res:express.Response):any{
+        req.body.last_played= moment().format('YYYY-MM-DD').toString() + "";
         User.findByIdAndUpdate(req.params.userId,{$push:{'scores.score_quiz':req.body}}).exec((err,score_quiz)=>{
             if(err){
                 res.status(500).json(err);

@@ -38,7 +38,7 @@ export class ScoresController{
             if(err){
                 res.status(500).json(err);
             }
-            res.status(200).json();
+            res.status(200).json(req.body);
         })
     }
     // get global_quiz by user's id

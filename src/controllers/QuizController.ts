@@ -2,7 +2,7 @@
 import * as mongoose from 'mongoose';
 import { QuizSchema } from '../mongooseModels/QuizModel';
 import express from 'express';
-import { Utility } from './Utils';
+import { Util } from './Utils';
 import { UserSchema } from './../mongooseModels/UserModel';
 import moment from 'moment';
 const path = require("path");
@@ -10,7 +10,7 @@ const Quiz = mongoose.model('Quiz', QuizSchema);
 const User = mongoose.model('User', UserSchema);
 
 export class QuizController {
-    public utility: Utility = new Utility();
+    public utility: Util = new Util();
     // create a new quiz
     public addNewQuiz(req: express.Request, res: express.Response) {
         req.body['image'] = "D:/nodeJs/quizz/src/assets/" + req.body['theme'] + ".png";
@@ -83,13 +83,13 @@ export class QuizController {
                 }
 
 
-                Quiz.find({}).where("_id").nin(tab).exec((err, quizs) => {
+                Quiz.find({}).where("_id").nin(tab).where("level").equals(req.query.level).exec((err, quizs) => {
                     if (err) {
                         res.status(500).json({ message: err });
                     }
                     if (quizs.length == 0 || quizs == null)
                         res.status(404).json({ message: "resource not found" })
-                    let random = Utility.getRandom(quizs.length);
+                    let random = Util.getRandom(quizs.length);
                     res.status(200).json(quizs[random]);
                 });
             }

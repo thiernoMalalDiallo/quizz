@@ -86,7 +86,7 @@ export class QuizController {
                         res.status(500).json({ message: err });
                     }
                     if (quizs.length == 0 || quizs == null)
-                        res.status(404).json({ message: "resource not found" })
+                        res.status(404).json()
                     let random = Util.getRandom(quizs.length);
                     res.status(200).json(quizs[random]);
                 });
@@ -191,7 +191,14 @@ export class QuizController {
                         if (err) {
                             res.status(500).json({ message: err.toString() });
                         }
-                        else {
+                        else if (quiz.length == 0 ) {
+                            Quiz.find({}, (err, quizs) => {
+                                if (err) {
+                                    res.status(404).json(err);
+                                }
+                                res.status(200).json(quizs);
+                            })   
+                        } else {
                             res.status(201).json(quiz);
                         }
                     });

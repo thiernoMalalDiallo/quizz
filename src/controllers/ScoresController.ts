@@ -32,7 +32,7 @@ export class ScoresController{
     }
     // update score_quiz by user's id
     public updateScore_quiz(req:express.Request,res:express.Response):any{
-        User.findByIdAndUpdate(req.params.userId,{$set:{'scores.score_quiz':req.body.score_quiz}}).exec((err,score_quiz)=>{
+        User.findByIdAndUpdate(req.params.userId,{$push:{'scores.score_quiz':req.body}}).exec((err,score_quiz)=>{
             if(err){
                 res.status(500).json(err);
             }

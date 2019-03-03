@@ -76,7 +76,7 @@ export class QuizController {
                     var fields = score_quiz["scores"]["score_quiz"];
                     for (let i = 0; i < fields.length; i++) {
                         if (new Date(new Date().setDate(new Date().getDate() - 5)) < fields[i]['last_played']) {
-                            tab.push(fields[i]['id_quizz']);
+                            tab.push(fields[i]['quizId']);
                         }
                     }
 
@@ -113,7 +113,7 @@ export class QuizController {
                     var fields = score_quiz["scores"]["score_quiz"];
                     for (let i = 0; i < fields.length; i++) {
                         if (new Date(new Date().setDate(new Date().getDate() - 5)) < fields[i]['last_played']) {
-                            tab.push(fields[i]['id_quizz']);
+                            tab.push(fields[i]['quizId']);
                         }
                     }
 
@@ -149,7 +149,7 @@ export class QuizController {
                     var fields = score_quiz["scores"]["score_quiz"];
                     for (let i = 0; i < fields.length; i++) {
                         if (new Date(new Date().setDate(new Date().getDate() - 5)) < fields[i]['last_played']) {
-                            tab.push(fields[i]['id_quizz']);
+                            tab.push(fields[i]['quizId']);
                         }
                     }
 
@@ -217,7 +217,7 @@ export class QuizController {
                     var fields = score_quiz["scores"]["score_quiz"];
                     for (let i = 0; i < fields.length; i++) {
                         if (new Date(new Date().setDate(new Date().getDate() - 5)) < fields[i]['last_played']) {
-                            tab.push(fields[i]['id_quizz']);
+                            tab.push(fields[i]['quizId']);
                         }
                     }
 

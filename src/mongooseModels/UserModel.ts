@@ -30,7 +30,7 @@ export const UserSchema = new Schema({
             }
         }],
         score_quiz: [{
-            id_quizz: String,
+            quizId: String,
             score: Number,
             last_played:Date
         }],

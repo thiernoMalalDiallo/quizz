@@ -5,7 +5,7 @@ export class RoutesNotification{
         app.route('/notification')
         .post(this.notificationController.notify);
 
-        app.route('/notifications/:idUser')
+        app.route('/notifications/:userId')
         .get(this.notificationController.getNotifications);
         
         app.route('/notification/:idNotification')

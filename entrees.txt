@@ -188,10 +188,10 @@ play :
         sortie : image et nom des quizz
             result: same as before
 achievements :
-	enregistrer : http://localhost:8000/achievement?idUser=5c6b106702e03b4ab83d68cb&score=10&theme=JAVA
+	enregistrer : method : post, url : http://localhost:8000/achievement
 	    Entrees : id_user, theme, score
 	    sortie : ok (200)
-	Affichage : http://localhost:8000/achievement/idUser
+	Affichage : method : get, url : http://localhost:8000/achievement/idUser
 	    Entrees : id_user
     	Sortie :  if exist => list(achievement) sinon not archivements
 
@@ -202,23 +202,21 @@ Challenge :
     défi de la semaine :
         Entrees : 
         sortie : quizz de la semaine
-    défier un ami :
-        Entrees : id_ami_a_defier,id_quiz
-        sortie : defi envoyé (200)
-    accepter un défi :
-        Entrees : id_ami_qui_a_envoye, id_defi
-        sortie : notification d'acception envoye (200)
 
 Notifications :
-    notifier :
-        Entrees : user_id_notified, user_id_who_notify,  id_quiz, subject (facultatif)  //Si c'est le system qui notifie, id_user_who_notify = SYSTEM
+    notifier : method : post, url : http://localhost:8000/notification
+        Entrees : user_id_notified, user_id_who_notify,  id_quiz, subject (facultatif)  //Si c'est l'admin qui notifie, id_user_who_notify = ADMIN
         sortie : ok (200)
-    afficher :
+    afficher : method : get, url : http://localhost:8000/notifications/userId
         Entrees : id_user
         sortie : list(Notifications) sinon vide
-    suprimmer :
+    suprimmer :  method : get, url : http://localhost:8000/notification/idNotification
         Entrees : id_notification
         sortie : if remove(200) sinon deja suprimmer
+    défier un ami :
+       Pour defier un ami, il faut utiliser la fonctionnalité notifier pou envoyer un défi et accepter un defi
+    demande d'ami :
+        Pour envoyer une invitation, il faut utiliser la fonctionnalité notifier pou envoyer l'invitation et l'accepter
 
 top score (meilleurs joueurs) :
     globale : 

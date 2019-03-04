@@ -13,25 +13,35 @@ export class NotificationController {
             if(err){
                 res.json(err);
             }
-            res.status(200).json(notification);
-        })
+            else{
+                res.status(200).json(notification);
+            }
+           
+        });
     }
 
     public getNotifications(req: express.Request, res: express.Response) {
-        Notification.find({}).where('user_id_notified').equals(req.params.userId).select('_id user_id_notified user_id_who_notify id_quiz subject').exec((err,notifications)=>{
+        Notification.find({}).where('user_id_notified').equals(req.params.userId).exec((err,notifications)=>{
             if(err){
                 res.json(err);
             }
+            if(notifications.length == 0){
+                res.status(404).json({message: 'not Notifications'});
+            }
+            if(notifications.length != 0){
                 res.status(200).json(notifications);
-            }); 
+            }           
+        }); 
     }
 
     public deleteNotification(req: express.Request, res: express.Response) {
-        Notification.remove({ _id: req.params.quizNotification }, (err) => {
+        Notification.remove({ _id: req.params.idNotification }, (err) => {
             if (err) {
                 res.status(400).json(err);
             }
-            res.status(200).json({ message: 'Successfully deleted notification!' });
+            else{
+                res.status(200).json({ message: 'Successfully deleted notification!' });
+            }
         }); 
     }
 }

@@ -9,43 +9,52 @@ export class AchievementController {
 
     // create a new achievement
     public addNewAchievement(req: express.Request, res: express.Response) {
-        if(req.query.score == 10){
-            var nbr_achievements : any; 
-            Achievement.findOne({}).where('user_id').equals(req.query.userId).where('theme').equals(req.query.theme).select('number_achievements').exec((err,achievement)=>{
+        if(req.body.score == 10){
+            Achievement.findOne({}).where('user_id').equals(req.body.user_id).where('theme').equals(req.body.theme).select('number_achievements').exec((err,achievement)=>{
                 if(err){
                     res.json(err);
                 }
-                    console.log(achievement);
-                    res.json('coucou');
-                }); 
-            /*Achievement.findOneAndUpdate({ user_id: req.query.userId, theme: req.query.theme }, { $push: { "number_achievements": 1} }, (err, achievement) => {
-                if (err) {
-                    res.send(err);
+                if(achievement == null){
+                    let achievement = new Achievement(req.body);
+                    achievement.save((err, achievement) => {
+                        if (err) {
+                            res.send(err);
+                        }
+                        else
+                            res.status(200).json(achievement);
+                    });
                 }
-                res.status(200).json(achievement);
-            });*/
-            res.json('dans le if');
+                if(achievement != null){
+                    console.log(achievement);
+                    let number_achievements = achievement['number_achievements'] + 1;
+                    Achievement.findOneAndUpdate({ user_id: req.body.user_id, theme: req.body.theme }, { $push: { "number_achievements": number_achievements} }, (err, achievement) => {
+                        if (err) {
+                            res.send(err);
+                        }
+                        else
+                            res.status(200).json(achievement);
+                    });
+                }
+            }); 
+            
         }
-        res.json('Not achievement');
-        // newAchievement.user_id = req.query.userId;
-        // newAchievement.theme = req.query.userId;
-        // newAchievement.number_achievements = req.query.numberAchievements;
-        // newAchievement.save((err, quiz) => {
-        //     if (err) {
-        //         res.status(400).json(res);
-        //     }
-        //     res.status(200).json(quiz);
-        // });
-        
+        else
+            res.json({message: 'Not achievement'});
     }
+
     // get all achievements
     public getAchievements(req: express.Request, res: express.Response) {
-        Achievement.find({}).where('user_id').equals(req.params.userId).select('theme number_achievements').exec((err,achievements)=>{
+        Achievement.find({}).where('user_id').equals(req.params.userId).exec((err,achievements)=>{
             if(err){
                 res.json(err);
             }
+            if(achievements.length == 0){
+                res.status(404).json({message: 'Not achievements'});
+            }
+            if(achievements.length != 0){
                 res.status(200).json(achievements);
-            }); 
+            }    
+        }); 
 
     }
 }

@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import * as bodyParser from "body-parser";
 import {RoutesUser} from "./Routes/RoutesUser";
 import {RoutesQuiz} from "./Routes/RoutesQuiz";
@@ -21,9 +20,6 @@ class App {
     public routeScore: RoutesScore = new RoutesScore();
     public routeAchievement : RoutesAchievement = new RoutesAchievement();
     public routeNotification : RoutesNotification = new RoutesNotification();
-    public routeQuiz: RoutesQuiz= new RoutesQuiz();
-    public routeFriendList: RoutesFriendList=new RoutesFriendList();
-    public routeScore: RoutesScore=new RoutesScore();
     public routeChallenge:RoutesChallenge= new RoutesChallenge();
     //
     constructor() {

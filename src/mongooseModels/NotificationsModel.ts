@@ -18,5 +18,5 @@ export const NotificationSchema = new Schema({
     subject : {
        type : String
     }
-
+    
 }); 

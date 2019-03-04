@@ -26,7 +26,7 @@ registration :
 
 play :
     play random :
-        Entrees : userId : http://127.0.0.1:8000/quizs/random/5c72c029bd70084bb4ac0f89
+        Entrees : userId : http://127.0.0.1:8000/quizs/random/5c72c029bd70084bb4ac0f89?level=easy
         Sortie :  if exist 200 
             result:                {
                         "answers": [
@@ -175,7 +175,7 @@ play :
                 }
             ]
     recommended games : (besion de trouver une solution optimal)
-        Entrees : id_user,quantity :http://127.0.0.1:8000/quizs/recommended/5c794522677f120920e0574e?quantity=1&level=easy
+        Entrees : id_user,quantity :http://127.0.0.1:8000/quizs/recommended/5c794522677f120920e0574e?quantity=1
         sortie : image, nom et theme des quizz
         
     new games :
@@ -225,7 +225,9 @@ top score (meilleurs joueurs) :
     par theme :
         Entrees : id_theme
         sortie : list (meilleurs joueurs) avec classement, score globale
-    
+score_fin_de_jeux :
+    entrees: userId, quizId, score
+    sortie: 200
 resumé profil user :
     Entrees : id_user
     sortie :  score, classement, avatar, pseudo   

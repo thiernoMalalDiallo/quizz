@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose';
+/*import * as mongoose from 'mongoose';
 import { AchievementSchema } from '../mongooseModels/AchievementModel';
 import express from 'express';
 const path = require("path");
@@ -59,3 +59,4 @@ export class AchievementController {
     }
 }
 
+*/

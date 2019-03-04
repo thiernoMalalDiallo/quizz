@@ -16,6 +16,6 @@ export class RoutesScore{
         
         app.route('/scores/score_quiz/:userId')
         .get(this.scoresController.getScore_quiz)
-        .post(this.scoresController.updateGlobal_Score);
+        .put(this.scoresController.updateScore_quiz);
     }
 }

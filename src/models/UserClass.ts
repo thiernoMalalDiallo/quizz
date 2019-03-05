@@ -1,19 +1,19 @@
 import { ScoreClass } from "./ScoresClass";
 
 export class UserClass {
-    private _UserName!: string;
-    public get UserName(): string {
-        return this._UserName;
+    public _username!: string;
+    public  get userName(): string {
+        return this._username;
     }
-    public set UserName(value: string) {
-        this._UserName = value;
+    public set userName(value: string) {
+        this._username = value;
     }
-    private _Password!: string;
-    public get Password(): string {
-        return this._Password;
+    private _password!: string;
+    public get password(): string {
+        return this._password;
     }
-    public set Password(value: string) {
-        this._Password = value;
+    public set password(value: string) {
+        this._password = value;
     }
     private _picture!: string;
     public get picture(): string {
@@ -30,12 +30,13 @@ export class UserClass {
         this._ranking = value;
     }
     private _scores!: ScoreClass;
-    public get scores(): ScoreClass {
+    public get scores():ScoreClass {
         return this._scores;
     }
     public set scores(value: ScoreClass) {
         this._scores = value;
     }
+   
     private _friendsList!: [];
     public get friendsList(): [] {
         return this._friendsList;

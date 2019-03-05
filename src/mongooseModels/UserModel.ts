@@ -21,7 +21,7 @@ export const UserSchema = new Schema({
     },
     scores : {
         score_global: {type:Number,default:0},
-        score_theme: [{
+        score_theme: [{ 
             theme: String,
             score: Number,
             numberOfTrophy:{
@@ -34,7 +34,7 @@ export const UserSchema = new Schema({
             score: Number,
             last_played:Date
         }],
-        score_challlenge: [{
+        score_challenge: [{
             id_challenger: String,
             result: String
         }]

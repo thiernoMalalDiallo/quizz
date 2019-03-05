@@ -9,18 +9,19 @@ const Challenge = mongoose.model('Challenge',ChallengeSchema);
 const ChallPlayer=mongoose.model("ChallPlayer",ChallPlayerSchema);
 export class ChallengeController {
     public challengeAfriend (req:express.Request,res:express.Response){
-        User.findOne({ _id: req.params.userId },
-         (err, user) => {
+        User.findOne().where('_id').equals(req.params.userId).
+        exec((err, user) => {
             if (err) {
                 res.status(500).json({message:err});
             }
             else
             {
                 if(user==null){
-                    res.status(404).json({message:err});
+                    res.status(404).json({message:"not found"});
                 }
                 else{
-                    console.log(user)
+                    console.log();
+                    res.json(user['scores']);
                 }
             }
         });

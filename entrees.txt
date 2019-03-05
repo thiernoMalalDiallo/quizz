@@ -1,6 +1,6 @@
 ﻿Authentification :
 
-    Entrees : username, password : http://localhost:8000/users/Authentification?username=yahya&password=barzizoui
+    Entrees : username, password : post http://localhost:8000/users/authentification body: userrname, password
     Sortie :  si c'est ok => status 200 et reponse
                             {
                 "scores": {
@@ -26,7 +26,7 @@ registration :
 
 play :
     play random :
-        Entrees : userId : http://127.0.0.1:8000/quizs/random/5c72c029bd70084bb4ac0f89?level=easy
+        Entrees : userId : get :http://127.0.0.1:8000/quizs/random/userId?level=difficulty
         Sortie :  if exist 200 
             result:                {
                         "answers": [
@@ -159,7 +159,7 @@ play :
                     }
             => un quizz sinon not exist 404 "resource not found"
     most played :
-        Entrees : id_user, quantity : http://127.0.0.1:8000/quizs/mostPlayed/5c72c029bd70084bb4ac0f89?quantity=2
+        Entrees : id_user, quantity : get: http://127.0.0.1:8000/quizs/mostPlayed/userId?quantity=quantity
         
         sortie : image, nom et theme des quizz contraintes : pas afficher un jeu qui a deja ete jouer avant 1 semaine
             result: [
@@ -174,17 +174,17 @@ play :
                     "theme": "ruby"
                 }
             ]
-    recommended games : (besion de trouver une solution optimal)
-        Entrees : id_user,quantity :http://127.0.0.1:8000/quizs/recommended/5c794522677f120920e0574e?quantity=1
+    recommended games : 
+        Entrees : id_user,quantity : get: http://127.0.0.1:8000/quizs/recommended/:userId?quantity=quantity
         sortie : image, nom et theme des quizz
         
     new games :
-        Entrees : id_user, quantity : http://127.0.0.1:8000/quizs/new/5c72c029bd70084bb4ac0f89?quantity=2
+        Entrees : id_user, quantity : get :http://127.0.0.1:8000/quizs/new/userId?quantity=quantity
         sortie : image, nom et theme des quizz
             result: same as before
 
     games par theme et difficulté:
-        Entrees : userId, level, quantity : http://127.0.0.1:8000/quizs/difficulty/5c72c029bd70084bb4ac0f89?quantity=1&level=easy
+        Entrees : userId, difficulty, quantity : get :http://127.0.0.1:8000/quizs/difficulty/:userId?quantity=quantity&level=difficulty
         sortie : image et nom des quizz
             result: same as before
 achievements :
@@ -202,12 +202,9 @@ Challenge :
     défi de la semaine :
         Entrees : 
         sortie : quizz de la semaine
-    défier un ami :
-        Entrees : id_ami_a_defier,id_quiz
-        sortie : defi envoyé (200)
-    accepter un défi :
-        Entrees : id_ami_qui_a_envoye, id_defi
-        sortie : notification d'acception envoye (200)
+    gagné un challenge :
+        entrees : userId , id_challenger: Post: http://127.0.0.1:8000/challenges/challengeAfriend/5c7bdc902ec294967c69f08d
+        sortie : status(200)
 
 Notifications :
     afficher :
@@ -216,19 +213,251 @@ Notifications :
     suprimmer :
         Entrees : id_user, id_notification
         sortie : if remove(200) sinon deja suprimmer
-
+    défier un ami :
+        Entrees : id_ami_a_defier,id_quiz   
+        sortie : defi envoyé (200)
+    accepter un défi :
+        Entrees : id_ami_qui_a_envoye, id_defi 
+        sortie : notification d'acception envoye (200)
 top score (meilleurs joueurs) :
     globale : 
-        Entrees : /top-score
+        Entrees : /top-score  : get :http://127.0.0.1:8000/scores/top
         sortie : list (meilleurs joueurs) avec classement, score globale
+            exemple: 
+                                {
+                        "scores": {
+                            "score_global": 3102,
+                            "score_theme": [
+                                {
+                                    "numberOfTrophy": 18,
+                                    "_id": "5c7d9c436f8796fac8837dd1",
+                                    "theme": "ruby",
+                                    "score": 650
+                                },
+                                {
+                                    "numberOfTrophy": 12,
+                                    "_id": "5c7d9c436f8796fac8837dd0",
+                                    "theme": "git",
+                                    "score": 457
+                                },
+                                {
+                                    "numberOfTrophy": 3,
+                                    "_id": "5c7d9c436f8796fac8837dcf",
+                                    "theme": "javascript",
+                                    "score": 123
+                                },
+                                {
+                                    "numberOfTrophy": 34,
+                                    "_id": "5c7d9c436f8796fac8837dce",
+                                    "theme": "c-sharp",
+                                    "score": 876
+                                },
+                                {
+                                    "numberOfTrophy": 67,
+                                    "_id": "5c7d9c436f8796fac8837dcd",
+                                    "theme": "python",
+                                    "score": 654
+                                },
+                                {
+                                    "numberOfTrophy": 27,
+                                    "_id": "5c7d9c436f8796fac8837dcc",
+                                    "theme": "spring",
+                                    "score": 231
+                                },
+                                {
+                                    "numberOfTrophy": 4,
+                                    "_id": "5c7d9c436f8796fac8837dcb",
+                                    "theme": "angularjs",
+                                    "score": 111
+                                }
+                            ],
+                            "score_quiz": [],
+                            "score_challenge": []
+                        },
+                        "ranking": 13,
+                        "_id": "5c7c1b701d8e3ab24b0ea7bb",
+                        "username": "kaay",
+                        "password": "54237c75081eee9a849b6f8b97ede3616de6ec33c10a147e2e51a32e07ada38298df860cdd6481788b7aafa7e0ba6e16e12a8685bf01ad3a2f406077ea9731b5",
+                        "picture": "User02c",
+                        "friendsList": [],
+                        "__v": 0
+                    },
+                    {
+                        "scores": {
+                            "score_global": 500,
+                            "score_theme": [
+                                {
+                                    "numberOfTrophy": 18,
+                                    "_id": "5c7c1c083c5d7726f470da6f",
+                                    "theme": "ruby",
+                                    "score": 650
+                                }
+                            ],
+                            "score_quiz": [
+                                {
+                                    "_id": "5c7c1c083c5d7726f470da71",
+                                    "quizId": "5c72c029bd70084bb4ac0f89",
+                                    "score": 52,
+                                    "last_played": "2019-02-24T16:02:49.346Z"
+                                },
+                                {
+                                    "_id": "5c7c1c083c5d7726f470da70",
+                                    "quizId": "5c72c029bd70084bb4ac0f89",
+                                    "score": 52,
+                                    "last_played": "2019-02-05T16:02:49.346Z"
+                                }
+                            ],
+                            "score_challenge": [
+                                {
+                                    "_id": "5c7c1d3851688b286ce60968",
+                                    "id_challenger": "5c77e1db0d881c0b9da845fb",
+                                    "result": "won"
+                                },
+                                {
+                                    "_id": "5c7c1d3b51688b286ce60969",
+                                    "id_challenger": "5c77e1db0d881c0b9da845fb",
+                                    "result": "won"
+                                }
+                            ]
+                        },
+                        "ranking": 1,
+                        "_id": "5c7c1c083c5d7726f470da6e",
+                        "username": "name",
+                        "password": "fa379259599944c86b0456d4a9b9674ed58162ab8792536782b24c440b584f351bb26377861107107e6f1c8af44afa4b9857fba5661139fd276e02c1f97cb0ee",
+                        "picture": "avatar1",
+                        "friendsList": [
+                            {
+                                "_id": "5c7e78e58db1d84268234505",
+                                "friendId": "5c7dacb96f8796fac8837dd2"
+                            },
+                            {
+                                "_id": "5c7e79cd853c173aec5b6dc2",
+                                "friendId": "5c7dacb96f8796fac8837dd2"
+                            }
+                        ],
+                        "__v": 0
+                    },
+                    {
+                        "scores": {
+                            "score_global": 89,
+                            "score_theme": [],
+                            "score_quiz": [
+                                {
+                                    "_id": "5c7d41288e458cd9773f321b",
+                                    "quizId": "5c72b7126cc7633cd4898490",
+                                    "score": 0,
+                                    "last_played": "2019-03-04T00:00:00.000Z"
+                                }
+                            ],
+                            "score_challlenge": [],
+                            "score_challenge": []
+                        },
+                        "ranking": 0,
+                        "_id": "5c7d409c8e458cd9773f321a",
+                        "username": "yacine",
+                        "password": "487a5102c450b2e7ff7a7c018929c11f000f0ba53737155431dd8f6b804c299c64d264c1bcc6d31bd3635f806afae8f4374034ef26acb45e8749e95becb4aaff",
+                        "picture": "User05b",
+                        "friendsList": [],
+                        "__v": 0
+                    }
     par theme :
-        Entrees : id_theme
+        Entrees : theme : get : http://127.0.0.1:8000/scores/top/:theme
         sortie : list (meilleurs joueurs) avec classement, score globale
+            exemple :
+                                            [
+                                    {
+                                        "scores": {
+                                            "score_global": 500,
+                                            "score_theme": [
+                                                {
+                                                    "numberOfTrophy": 18,
+                                                    "_id": "5c7c1c083c5d7726f470da6f",
+                                                    "theme": "ruby",
+                                                    "score": 688
+                                                }
+                                            ],
+                                            "score_quiz": [
+                                                {
+                                                    "_id": "5c7c1c083c5d7726f470da71",
+                                                    "quizId": "5c72c029bd70084bb4ac0f89",
+                                                    "score": 52,
+                                                    "last_played": "2019-02-24T16:02:49.346Z"
+                                                },
+                                                {
+                                                    "_id": "5c7c1c083c5d7726f470da70",
+                                                    "quizId": "5c72c029bd70084bb4ac0f89",
+                                                    "score": 52,
+                                                    "last_played": "2019-02-05T16:02:49.346Z"
+                                                }
+                                            ],
+                                            "score_challenge": [
+                                                {
+                                                    "_id": "5c7c1d3851688b286ce60968",
+                                                    "id_challenger": "5c77e1db0d881c0b9da845fb",
+                                                    "result": "won"
+                                                },
+                                                {
+                                                    "_id": "5c7c1d3b51688b286ce60969",
+                                                    "id_challenger": "5c77e1db0d881c0b9da845fb",
+                                                    "result": "won"
+                                                }
+                                            ]
+                                        },
+                                        "ranking": 1,
+                                        "_id": "5c7c1c083c5d7726f470da6e",
+                                        "username": "name",
+                                        "password": "fa379259599944c86b0456d4a9b9674ed58162ab8792536782b24c440b584f351bb26377861107107e6f1c8af44afa4b9857fba5661139fd276e02c1f97cb0ee",
+                                        "picture": "avatar1",
+                                        "friendsList": [
+                                            {
+                                                "_id": "5c7e78e58db1d84268234505",
+                                                "friendId": "5c7dacb96f8796fac8837dd2"
+                                            },
+                                            {
+                                                "_id": "5c7e79cd853c173aec5b6dc2",
+                                                "friendId": "5c7dacb96f8796fac8837dd2"
+                                            }
+                                        ],
+                                        "__v": 0
+                                    },
+                                    {
+                                        "scores": {
+                                            "score_global": 3102,
+                                            "score_theme": [
+                                                {
+                                                    "numberOfTrophy": 18,
+                                                    "_id": "5c7d9c436f8796fac8837dd1",
+                                                    "theme": "ruby",
+                                                    "score": 650
+                                                }
+                                            ],
+                                            "score_quiz": [
+                                                {
+                                                    "_id": "5c7e8fbff84c45170559fff0",
+                                                    "quizId": "5c72c0e7f1b5cc5eb8ee0b1f",
+                                                    "score": 0,
+                                                    "last_played": "2019-03-05T00:00:00.000Z"
+                                                }
+                                            ],
+                                            "score_challenge": []
+                                        },
+                                        "ranking": 13,
+                                        "_id": "5c7c1b701d8e3ab24b0ea7bb",
+                                        "username": "kaay",
+                                        "password": "54237c75081eee9a849b6f8b97ede3616de6ec33c10a147e2e51a32e07ada38298df860cdd6481788b7aafa7e0ba6e16e12a8685bf01ad3a2f406077ea9731b5",
+                                        "picture": "User02c",
+                                        "friendsList": [],
+                                        "__v": 0
+                                    }
+                                ]
+                
+ 
+
 score_fin_de_jeux :
     entrees: userId, quizId, score
     sortie: 200
 resumé profil user :
-    Entrees : id_user
+    Entrees : userId get: http://127.0.0.1:8000/users/:userId
     sortie :  score, classement, avatar, pseudo   
 
 Settings :
@@ -248,12 +477,26 @@ My profil
 
 Friends :
     afficher :
-        Entrees : Friends/id_user
+        Entrees : id_user // get :http://127.0.0.1:8000/friendList/userId 
         sortie : list (Friends) sinon no Friends
+            exemple : 
+             [
+                {
+                    "scores": {
+                        "score_global": 0
+                    },
+                    "ranking": 0,
+                    "_id": "5c7dacb96f8796fac8837dd2",
+                    "username": "Jean_Pierre",
+                    "picture": "User02c"
+                }
+            ]
     supprimer :
-        Entrees : id_user, id_ami
-        sortie : ok (200)
-
+        Entrees : id_user, id_ami // delete :http://127.0.0.1:8000/friendList/userId
+        sortie : deleted  (202) / not found(404)
+    ajouter :
+        entrees : userId, friendId/  post: http://127.0.0.1:8000/friendList/userId body: friendId
+        sortie : created (201) / not found (404)
 fin de jeu :
     Entrees : id_user, id_quiz, score
     sortie : ok (200)

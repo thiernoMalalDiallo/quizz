@@ -196,15 +196,12 @@ achievements :
     	Sortie :  if exist => list(achievement) sinon not archivements
 
 Challenge :
-    défi du jour :
-        Entrees : 
+    défi du jour / semaine: get:
+        Entrees : type(weekly/daily) / get :http://127.0.0.1:8000/challenges/:type 
         sortie : quizz du jour
-    défi de la semaine :
-        Entrees : 
-        sortie : quizz de la semaine
-    gagné un challenge :
-        entrees : userId , id_challenger: Post: http://127.0.0.1:8000/challenges/challengeAfriend/5c7bdc902ec294967c69f08d
-        sortie : status(200)
+    finir un challenge d'un ami(e): 
+        entrees : challengerId , challengedId, quizId, score: Post: http://127.0.0.1:8000/challenges/challengeAfriend
+        sortie : status(201) si un des deux amis n'a pas encors jouer 
 
 Notifications :
     afficher :
@@ -468,8 +465,8 @@ Settings :
         Entrees : /settings/id_user, username, email, password, confirm password
         sortie : 200
 Admin lance un challenge :
-    Entrees : nom du defi, questions, reponses adéquat
-    sortie : if ok => 200 
+    Entrees : quizId, type(daily/weekly) // post :http://127.0.0.1:8000/challenges body quizId, challengeType
+    sortie : created 201  
 
 My profil
     Entrees : id_user

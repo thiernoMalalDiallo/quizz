@@ -36,6 +36,8 @@ export const UserSchema = new Schema({
         }],
         score_challenge: [{
             id_challenger: String,
+            quizId:String,
+            score:Number,
             result: String
         }]
     },

@@ -1,14 +1,27 @@
 import * as mongoose from 'mongoose';
 import { setFlagsFromString } from 'v8';
-const Schema= mongoose.Schema;
+const Schema = mongoose.Schema;
 export const ChallPlayerSchema = new Schema({
-    idChallenger:{
-        type:String,
-        required:true},
-    idChallenged:{
-        type:String,
-        required:true},
-    score:{
-        type:Number,
-        required:true}
+    challengedId: {
+        type: String,
+        required: true
+    },
+    challengerId: {
+        type: String,
+        required: true
+    },
+    quizId: {
+        type: String,
+        required: true
+    },
+    
+    score: {
+        type: Number,
+        required: true
+    }
+    ,
+    result: {
+        type: String
+    }
+
 });

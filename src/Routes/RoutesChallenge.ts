@@ -6,6 +6,9 @@ export class RoutesChallenge {
         /*==================== ROUTES FOR Challenge ========================*/
         app.route("/challenges/challengeAfriend").
         post(this.challengeController.challengeAfriend);
+
+        app.route("/challenges/getHistoric/:userId").
+        get(this.challengeController.getHistoricUser);
         
         app.route("/challenges").
         post(this.challengeController.addDailyQuiz);

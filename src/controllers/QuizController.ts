@@ -57,7 +57,7 @@ export class QuizController {
             if (err) {
                 res.status(400).json(err);
             }
-            res.status(200).json({ message: 'Successfully deleted contact!' });
+            res.status(200).json({ message: 'Quiz deleted!' });
         });
     }
     // get a random quiz in a specifc difficulty 

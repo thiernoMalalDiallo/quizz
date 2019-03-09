@@ -6,10 +6,13 @@ export class RoutesScore{
 
         
         app.route('/scores/top').
-        get(this.scoresController.getTopScore)
+        get(this.scoresController.getTopScore);
 
         app.route('/scores/top/:theme').
-        get(this.scoresController.getTopScoreByTheme)
+        get(this.scoresController.getTopScoreByTheme);
+
+        app.route('/scores/topBytheme').
+        get(this.scoresController.getTopScoreByEveryTheme);
 
         app.route('/scores/:userId')
         .get(this.scoresController.getScores);

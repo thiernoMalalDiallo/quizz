@@ -11,6 +11,21 @@ const Challenge = mongoose.model('Challenge', ChallengeSchema);
 const ChallPlayer = mongoose.model("ChallPlayer", ChallPlayerSchema);
 const Quiz = mongoose.model("Quiz", QuizSchema);
 export class ChallengeController {
+    public getHistoricUser(req:express.Request,res:express.Response){
+        ChallPlayer.find({}).where("challengedId").equals(req.params.userId).exec((err,result)=>{
+            if(err){
+                res.status(500).json({message:err});
+            }
+            else{
+                if(result==null || result.length==0){
+                    res.status(404).json({message:"ressource not found"});
+                }
+                else {
+                    res.status(200).json(result);
+                }
+            }
+        });
+    }
     public challengeAfriend(req: express.Request, res: express.Response) {
         ChallPlayer.findOne({}).where("challengedId").equals(req.body.challengedId).where("challengerId").equals(req.body.challengerId)
             .where("result").nin(["won", "lost"]).exec((err, challenged) => {

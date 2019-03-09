@@ -4,7 +4,10 @@ import { UserSchema } from './../mongooseModels/UserModel';
 import moment from 'moment';
 import { UserClass } from 'models/UserClass';
 import { ScoreClass } from 'models/ScoresClass';
+import { QuizSchema } from './../mongooseModels/QuizModel';
+import { json } from 'body-parser';
 const User = mongoose.model('User', UserSchema);
+const Quiz = mongoose.model('Quiz', QuizSchema);
 export class ScoresController {
     // get all the scores of user by id
     public getScores(req: express.Request, res: express.Response): any {
@@ -64,35 +67,65 @@ export class ScoresController {
         });
     }
     public getTopScoreByTheme(req: express.Request, res: express.Response) {
-        User.find({}).sort({'scores.score_theme.score': 1}).where("scores.score_theme.theme").equals(req.params.theme).limit(5)
+        User.find({}).sort({ 'scores.score_theme.score': 1 }).where("scores.score_theme.theme").equals(req.params.theme).limit(5)
             .exec((err, users) => {
                 if (err) {
                     res.json(err)
                 }
                 else {
                     for (let i = 0; i < users.length; i++) {
-                        let tab=[];
-                      for( let j=0;j<users[i]['scores']['score_theme'].length;j++){
-                          if(users[i]['scores']['score_theme'][j]['theme']===req.params.theme){
-                              tab.push(users[i]['scores']['score_theme'][j]);
-                          }
-                      }
-                      users[i]['scores']['score_theme']=tab;
+                        let tab = [];
+                        for (let j = 0; j < users[i]['scores']['score_theme'].length; j++) {
+                            if (users[i]['scores']['score_theme'][j]['theme'] === req.params.theme) {
+                                tab.push(users[i]['scores']['score_theme'][j]);
+                            }
+                        }
+                        users[i]['scores']['score_theme'] = tab;
+                    }
+                    users = users.sort((user1, user2) => {
+                        if (+user1['scores']['score_theme'][0]['score'] > +user2['scores']['score_theme'][0]['score'])
+                            return -1;
+                        else if (+user1['scores']['score_theme'][0]['score'] < +user2['scores']['score_theme'][0]['score'])
+                            return 1;
+                        else
+                            return 0;
+                    })
+                    res.json(users);
                 }
-                users=users.sort((user1,user2)=>{
-                    if(+user1['scores']['score_theme'][0]['score']>+user2['scores']['score_theme'][0]['score'])
-                        return -1;
-                    else if(+user1['scores']['score_theme'][0]['score']<+user2['scores']['score_theme'][0]['score'])
-                        return 1;
-                    else 
-                        return 0;
-                })
-                res.json(users);
-            }
-        
-        
-        
-        
+            });
+    }
+
+    public getTopScoreByEveryTheme(req: express.Request, res: express.Response) {
+        let response: Array<{
+            theme: String,
+            user: Array<any>
+        }> = [];
+        Quiz.find().distinct('theme', (err, quizs) => {
+            quizs.forEach(element => {
+                response.push({ theme: element, user: [] });
+            });
+            User.find({}).exec((err, users) => {
+                if (err) {
+                    res.status(500).json({ message: err });
+                }
+                else {
+                    if (users.length == 0 || users == null)
+                        res.status(404).json({ message: err });
+                    else {
+                        users.forEach(user => {
+                            for (let j = 0; j < user['scores']['score_theme'].length; j++) {
+                                response.forEach(response => {
+                                    if (response.theme == user['scores']['score_theme'][j]['theme']) {
+                                        response.user.push(user);
+                                    }
+                                });
+                            }
+                        });
+                        res.status(200).json(response);
+                    }
+                }
+            });
+
         });
     }
 }

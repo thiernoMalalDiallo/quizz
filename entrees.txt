@@ -20,7 +20,7 @@
             sinon authentication failed status (401)
 
 registration :
-    url : http://localhost:8000/users
+    method: post url: http://localhost:8000/users
     Entrees : username, email, password, confirm password
     Sortie :  si c'est ok => 200 sinon one or more fields are empty (500)
 
@@ -194,6 +194,21 @@ achievements :
 	Affichage : method : get, url : http://localhost:8000/achievement/idUser
 	    Entrees : id_user
     	Sortie :  if exist => list(achievement) sinon not archivements
+        [
+    {
+        "number_achievements": 2,
+        "_id": "5c7e8c35743315163c68c0a2",
+        "user_id": "10",
+        "theme": "JAVA",
+        "__v": 0
+    },
+    {
+        "number_achievements": 2,
+        "_id": "5c7e8eac743315163c68c0a3",
+        "user_id": "10",
+        "theme": "PHP",
+        "__v": 0
+    }]
 
 Challenge : 
     défi du jour :
@@ -226,6 +241,7 @@ top score (meilleurs joueurs) :
         Entrees : id_theme
         sortie : list (meilleurs joueurs) avec classement, score globale
 score_fin_de_jeux :
+    mehod: post, url: http://localhost:8000/end-play
     entrees: userId, quizId, score
     sortie: 200
 resumé profil user :
@@ -254,11 +270,6 @@ Friends :
     supprimer :
         Entrees : id_user, id_ami
         sortie : ok (200)
-
-fin de jeu :
-    Entrees : id_user, id_quiz, score
-    sortie : ok (200)
-
 
 User : CRUD
 Quizz : CRUD

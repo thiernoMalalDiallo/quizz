@@ -7,7 +7,8 @@ import { RoutesFriendList } from "./Routes/RoutesFriendList";
 import { RoutesNotification } from "./Routes/RoutesNotification";
 import mongoose from "mongoose";
 import { RoutesScore } from "./Routes/RoutesScore";
-import{RoutesChallenge} from "./Routes/RoutesChallenge"
+import{RoutesChallenge} from "./Routes/RoutesChallenge";
+import{RoutesScoreEndPlay} from "./Routes/RoutesScoreEndPlay";
 class App {
     
     //public mongoUrl: string = 'mongodb://localhost/Quizz';
@@ -20,7 +21,8 @@ class App {
     public routeScore: RoutesScore = new RoutesScore();
     public routeAchievement : RoutesAchievement = new RoutesAchievement();
     public routeNotification : RoutesNotification = new RoutesNotification();
-    public routeChallenge:RoutesChallenge= new RoutesChallenge();
+    public routeChallenge : RoutesChallenge = new RoutesChallenge();
+    public routeScoreEndPlay : RoutesScoreEndPlay = new RoutesScoreEndPlay();
     //
     constructor() {
         this.app = express();
@@ -34,7 +36,8 @@ class App {
         this.routeQuiz.routes(this.app);  
         this.routeFriendList.routes(this.app);
         this.routeScore.routes(this.app);
-        this.routeChallenge.routes(this.app)
+        this.routeChallenge.routes(this.app);
+        this.routeScoreEndPlay.routes(this.app);
         this.mongoSetup(); 
     }
 

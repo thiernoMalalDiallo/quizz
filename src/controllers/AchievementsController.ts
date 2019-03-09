@@ -1,4 +1,4 @@
-/*import * as mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 import { AchievementSchema } from '../mongooseModels/AchievementModel';
 import express from 'express';
 const path = require("path");
@@ -15,6 +15,9 @@ export class AchievementController {
                     res.json(err);
                 }
                 if(achievement == null){
+                    let lower = req.body.theme.toLowerCase();
+                    req.body.theme = lower;
+                    console.log(lower);
                     let achievement = new Achievement(req.body);
                     achievement.save((err, achievement) => {
                         if (err) {
@@ -25,9 +28,8 @@ export class AchievementController {
                     });
                 }
                 if(achievement != null){
-                    console.log(achievement);
-                    let number_achievements = achievement['number_achievements'] + 1;
-                    Achievement.findOneAndUpdate({ user_id: req.body.user_id, theme: req.body.theme }, { $push: { "number_achievements": number_achievements} }, (err, achievement) => {
+                    let number_achievements = achievement.number_achievements + 1;
+                    Achievement.findOneAndUpdate({ user_id: req.body.user_id, theme: req.body.theme }, { "number_achievements": number_achievements}, (err, achievement) => {
                         if (err) {
                             res.send(err);
                         }
@@ -58,5 +60,3 @@ export class AchievementController {
 
     }
 }
-
-*/

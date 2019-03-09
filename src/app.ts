@@ -46,10 +46,11 @@ class App {
         this.app.use(bodyParser.json());
         //support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.disable('etag');
     }
     
     private mongoSetup(): void{
-        var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
+        var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 },  useNewUrlParser: true}, 
         replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
         mongoose.Promise = global.Promise;
         mongoose.connect(this.mongoUrl,options); 

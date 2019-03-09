@@ -186,19 +186,20 @@ export class QuizController {
                     }
                     console.log(tab)
                 }
+                // Ajouter le filtre pour supprimer les quiz déjà joués par le joueur
                 Quiz.find().where("theme").in(tab).limit(+req.query.quantity)
                     .exec((err, quiz) => {
                         if (err) {
                             res.status(500).json({ message: err.toString() });
                         }
-                        else if (quiz.length == 0 ) {
-                            Quiz.find({}, (err, quizs) => {
+                        /*  else if (quiz.length == 0 ) {
+                          Quiz.find({}, (err, quizs) => {
                                 if (err) {
                                     res.status(404).json(err);
                                 }
                                 res.status(200).json(quizs);
                             })   
-                        } else {
+                        }*/ else {
                             res.status(201).json(quiz);
                         }
                     });

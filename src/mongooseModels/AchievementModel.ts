@@ -12,7 +12,8 @@ export const AchievementSchema = new Schema({
     },
 
     number_achievements : {
-       type : Number
+       type : Number,
+       default : '1'
     }
 
 }); 

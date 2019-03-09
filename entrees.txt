@@ -20,7 +20,7 @@
             sinon authentication failed status (401)
 
 registration :
-
+    method: post url: http://localhost:8000/users
     Entrees : username, email, password, confirm password
     Sortie :  si c'est ok => 200 sinon one or more fields are empty (500)
 
@@ -188,13 +188,37 @@ play :
         sortie : image et nom des quizz
             result: same as before
 achievements :
-	enregistrer :
+	enregistrer : method : post, url : http://localhost:8000/achievement
 	    Entrees : id_user, theme, score
 	    sortie : ok (200)
-	Affichage :
+	Affichage : method : get, url : http://localhost:8000/achievement/idUser
 	    Entrees : id_user
     	Sortie :  if exist => list(achievement) sinon not archivements
+        [
+    {
+        "number_achievements": 2,
+        "_id": "5c7e8c35743315163c68c0a2",
+        "user_id": "10",
+        "theme": "JAVA",
+        "__v": 0
+    },
+    {
+        "number_achievements": 2,
+        "_id": "5c7e8eac743315163c68c0a3",
+        "user_id": "10",
+        "theme": "PHP",
+        "__v": 0
+    }]
 
+<<<<<<< HEAD
+Challenge : 
+    défi du jour :
+        Entrees : 
+        sortie : quizz du jour
+    défi de la semaine :
+        Entrees : 
+        sortie : quizz de la semaine
+=======
 Challenge :
     défi du jour / semaine: get:
         Entrees : type(weekly/daily) / get :http://127.0.0.1:8000/challenges/:type 
@@ -202,20 +226,31 @@ Challenge :
     finir un challenge d'un ami(e): 
         entrees : challengerId , challengedId, quizId, score: Post: http://127.0.0.1:8000/challenges/challengeAfriend
         sortie : status(201) si un des deux amis n'a pas encors jouer 
+>>>>>>> master
 
 Notifications :
-    afficher :
+    notifier : method : post, url : http://localhost:8000/notification
+        Entrees : user_id_notified, user_id_who_notify,  id_quiz, subject (facultatif)  //Si c'est l'admin qui notifie, id_user_who_notify = ADMIN
+        sortie : ok (200)
+    afficher : method : get, url : http://localhost:8000/notifications/userId
         Entrees : id_user
         sortie : list(Notifications) sinon vide
-    suprimmer :
-        Entrees : id_user, id_notification
+    suprimmer :  method : get, url : http://localhost:8000/notification/idNotification
+        Entrees : id_notification
         sortie : if remove(200) sinon deja suprimmer
     défier un ami :
+<<<<<<< HEAD
+       Pour defier un ami, il faut utiliser la fonctionnalité notifier pou envoyer un défi et accepter un defi
+    demande d'ami :
+        Pour envoyer une invitation, il faut utiliser la fonctionnalité notifier pou envoyer l'invitation et l'accepter
+
+=======
         Entrees : id_ami_a_defier,id_quiz   
         sortie : defi envoyé (200)
     accepter un défi :
         Entrees : id_ami_qui_a_envoye, id_defi 
         sortie : notification d'acception envoye (200)
+>>>>>>> master
 top score (meilleurs joueurs) :
     globale : 
         Entrees : /top-score  : get :http://127.0.0.1:8000/scores/top
@@ -454,6 +489,7 @@ top score (meilleurs joueurs) :
 
 
 score_fin_de_jeux :
+    mehod: post, url: http://localhost:8000/end-play
     entrees: userId, quizId, score
     sortie: 200
 resumé profil user :
@@ -492,6 +528,10 @@ Friends :
                 }
             ]
     supprimer :
+<<<<<<< HEAD
+        Entrees : id_user, id_ami
+        sortie : ok (200)
+=======
         Entrees : id_user, id_ami // delete :http://127.0.0.1:8000/friendList/userId
         sortie : deleted  (202) / not found(404)
     ajouter :
@@ -501,6 +541,7 @@ fin de jeu :
     Entrees : id_user, id_quiz, score
     sortie : ok (200)
 
+>>>>>>> master
 
 User : CRUD
 Quizz : CRUD

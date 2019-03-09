@@ -1,11 +1,12 @@
-import express from 'express';
-import {FriendListController} from './../controllers/FriendListController';
-export class RouteAchievements{
-    public friendListContorller = new FriendListController();
-    public routes(app:express.Application){
-        app.route('/friendList/:userId').
-        post(this.friendListContorller.addFriend).
-        get(this.friendListContorller.getFriends)
-        .delete(this.friendListContorller.deleteFriend);
+import {AchievementController} from './../controllers/AchievementsController';
+export class RoutesAchievement{
+    public achievementController:AchievementController = new AchievementController();
+    public routes(app:any){
+        
+        app.route('/achievement')
+        .post(this.achievementController.addNewAchievement);
+
+        app.route('/achievements/:userId')
+        .get(this.achievementController.getAchievements);
     }
 }

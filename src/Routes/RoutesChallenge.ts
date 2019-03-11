@@ -4,7 +4,7 @@ export class RoutesChallenge {
     public challengeController: ChallengeController = new ChallengeController();
     public routes(app: any) {
         /*==================== ROUTES FOR Challenge ========================*/
-        app.route("/challenges/challengeAfriend").
+        app.route("/challenges/challengeAfriend/:action").
         post(this.challengeController.challengeAfriend);
 
         app.route("/challenges/getHistoric/:userId").

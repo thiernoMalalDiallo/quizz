@@ -98,7 +98,7 @@ export class ScoresController {
     public getTopScoreByEveryTheme(req: express.Request, res: express.Response) {
         let response: Array<{
             theme: String,
-            user: Array<any>
+            user: Array<{score:any,detailUser:any}>
         }> = [];
         Quiz.find().distinct('theme', (err, quizs) => {
             quizs.forEach(element => {
@@ -110,16 +110,27 @@ export class ScoresController {
                 }
                 else {
                     if (users.length == 0 || users == null)
-                        res.status(404).json({ message: err });
+                        res.status(404).json({ message: "ressource not found" });
                     else {
                         users.forEach(user => {
                             for (let j = 0; j < user['scores']['score_theme'].length; j++) {
                                 response.forEach(response => {
-                                    if (response.theme == user['scores']['score_theme'][j]['theme']) {
-                                        response.user.push(user);
+                                    if (response.theme === user['scores']['score_theme'][j]['theme']) {
+                                        
+                                        response.user.push({score:user['scores']['score_theme'][j]['score'],detailUser:user});
                                     }
                                 });
                             }
+                        });
+                        response.forEach(element => {
+                            element.user=element.user.sort((user1, user2) => {
+                                if (+user1.score > +user2.score)
+                                    return -1;
+                                else if (+user1.score< +user2.score)
+                                    return 1;
+                                else
+                                    return 0;
+                            });
                         });
                         res.status(200).json(response);
                     }

@@ -6,16 +6,30 @@ import { ChallengeSchema } from "./../mongooseModels/ChallengeModel";
 import { ChallPlayerSchema } from "./../mongooseModels/ChallPlayer"
 import { QuizSchema } from './../mongooseModels/QuizModel';
 import { json } from 'body-parser';
+import { resolve } from 'url';
 const User = mongoose.model('User', UserSchema);
 const Challenge = mongoose.model('Challenge', ChallengeSchema);
 const ChallPlayer = mongoose.model("ChallPlayer", ChallPlayerSchema);
 const Quiz = mongoose.model("Quiz", QuizSchema);
 export class ChallengeController {
+    
     public getHistoricUser(req: express.Request, res: express.Response) {
-        let response :Array<{
-            userId:String,quizId:String,score:Number,result:String
-        }>=[];
-        ChallPlayer.find({}).or([{challengedId:req.params.userId},{challengerId:req.params.userId}]).exec((err, results) => {
+        let response: Array<{
+            userId: String, userName: String, userIdVersus: String, userNameVersus: String,
+            quizId: String, scoreUser: Number, scoreVersus: number, result: String
+        }> = [];
+        let challengedUsername:String="",challengerUsername:String="";
+        let getUser=function(userId:String){
+            return User.findOne({}).where("_id").equals(userId).exec();
+        }
+        var delay = (function () {
+            var timer: any = 0;
+            return function (_callback: any, ms: any) {
+                clearTimeout(timer);
+                timer = setTimeout(_callback, ms);
+            };
+        })();
+        ChallPlayer.find({}).or([{ challengedId: req.params.userId }, { challengerId: req.params.userId }]).exec((err, results) => {
             if (err) {
                 res.status(500).json({ message: err });
             }
@@ -25,27 +39,51 @@ export class ChallengeController {
                 }
                 else {
                     results.forEach(element => {
-                        if(element["challengerId"]==req.params.userId){
-                            response.push({
-                                userId:element["challengerId"],quizId:element["quizId"],score:element["scoreChallenger"],result:element["resultChallenger"]
-                            })
-                        }
-                        else {
+                        var dat:any;
+                        Promise.all([getUser(element["challengerId"]),getUser(element["challengedId"])]).then((data:Array<any>)=>{
+                            if(data.length!=2)
+                                res.json({message:"resource not found"});
+                            else{
+                                challengerUsername=data[0]['username'];
+                                challengedUsername=data[1]['username'];
+                            }
+                        }).then(()=>{
                             
-                            response.push({
-                                userId:element["challengedId"],quizId:element["quizId"],score:element["scoreChallenged"],result:element["resultChallenged"]
-                            })
-                        }
+                            if (element["challengerId"] == req.params.userId) {
+                                response.push({
+                                    userId: element["challengerId"], userName: challengerUsername,
+                                    userIdVersus: element["challengedId"], userNameVersus: challengedUsername,
+                                    quizId: element["quizId"],
+                                    scoreUser: element["scoreChallenger"], scoreVersus: element["scoreChallenged"]
+                                    , result: element["resultChallenger"]
+                                })
+                            }
+                            else {
+
+                                response.push({
+                                    userId: element["challengedId"], userName: challengedUsername,
+                                    quizId: element["quizId"]
+                                    ,
+                                    userIdVersus: element["challengerId"], userNameVersus: challengerUsername,
+                                    scoreUser: element["scoreChallenged"], scoreVersus: element["scoreChallenger"]
+                                    , result: element["resultChallenged"]
+                                })
+                            }
+                        
+                        });
                     });
-                    res.status(200).json(response);
+                    delay(function () {
+
+                        res.status(200).json(response);
+                    }, results.length*400); // end delay
                 }
             }
         });
     }
     public challengeAfriend(req: express.Request, res: express.Response) {
         if (req.params.action === "launchAChallenge") {
-            req.body.resultChallengedId = "In Progess";
-            req.body.resultChallengerId = "In Progess";
+            req.body.resultChallenged = "In Progess";
+            req.body.resultChallenger = "In Progess";
             let challfriend = new ChallPlayer(req.body);
             challfriend.save((err, result) => {
                 if (err) {
@@ -67,33 +105,33 @@ export class ChallengeController {
                     else {
                         if (+challplayer["scoreChallenger"] > +req.body.scoreChallenged) {
                             ChallPlayer.findOneAndUpdate({ _id: challplayer["_id"] },
-                            { resultChallenger: "Won", resultChallenged: "Lost", scoreChallenged: req.body.scoreChallenged })
-                            .exec((err, results) => {
-                                if (err)
-                                    res.status(500).json({ message: err });
-                                else
-                                    res.status(201).json(results);
-                            });
+                                { resultChallenger: "Won", resultChallenged: "Lost", scoreChallenged: req.body.scoreChallenged })
+                                .exec((err, results) => {
+                                    if (err)
+                                        res.status(500).json({ message: err });
+                                    else
+                                        res.status(201).json(results);
+                                });
                         }
                         else if (+challplayer["scoreChallenger"] < +req.body.scoreChallenged) {
                             ChallPlayer.findOneAndUpdate({ _id: challplayer["_id"] },
-                            { resultChallenger: "Lost", resultChallenged: "Won", scoreChallenged: req.body.scoreChallenged })
-                            .exec((err, results) => {
-                                if (err)
-                                    res.status(500).json({ message: err });
-                                else
-                                    res.status(201).json(results);
-                            });
+                                { resultChallenger: "Lost", resultChallenged: "Won", scoreChallenged: req.body.scoreChallenged })
+                                .exec((err, results) => {
+                                    if (err)
+                                        res.status(500).json({ message: err });
+                                    else
+                                        res.status(201).json(results);
+                                });
                         }
                         else {
                             ChallPlayer.findOneAndUpdate({ _id: challplayer["_id"] },
-                            { resultChallenger: "Draw", resultChallenged: "Draw", scoreChallenged: req.body.scoreChallenged })
-                            .exec((err, results) => {
-                                if (err)
-                                    res.status(500).json({ message: err });
-                                else
-                                    res.status(201).json(results);
-                            });
+                                { resultChallenger: "Draw", resultChallenged: "Draw", scoreChallenged: req.body.scoreChallenged })
+                                .exec((err, results) => {
+                                    if (err)
+                                        res.status(500).json({ message: err });
+                                    else
+                                        res.status(201).json(results);
+                                });
                         }
                     }
             })

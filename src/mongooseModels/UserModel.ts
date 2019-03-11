@@ -33,12 +33,6 @@ export const UserSchema = new Schema({
             quizId: String,
             score: Number,
             last_played:Date
-        }],
-        score_challenge: [{
-            id_challenger: String,
-            quizId:String,
-            score:Number,
-            result: String
         }]
     },
     friendsList: [{

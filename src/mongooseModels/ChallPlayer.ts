@@ -14,13 +14,21 @@ export const ChallPlayerSchema = new Schema({
         type: String,
         required: true
     },
-    
-    score: {
+    scoreChallenger: {
         type: Number,
         required: true
     }
     ,
-    result: {
+    
+    scoreChallenged: {
+        type: Number
+    },
+    
+    resultChallenged: {
+        type: String
+    }
+    ,
+    resultChallenger: {
         type: String
     }
 

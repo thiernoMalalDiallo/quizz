@@ -11,150 +11,140 @@ const Challenge = mongoose.model('Challenge', ChallengeSchema);
 const ChallPlayer = mongoose.model("ChallPlayer", ChallPlayerSchema);
 const Quiz = mongoose.model("Quiz", QuizSchema);
 export class ChallengeController {
-    public getHistoricUser(req:express.Request,res:express.Response){
-        ChallPlayer.find({}).where("challengedId").equals(req.params.userId).exec((err,result)=>{
-            if(err){
-                res.status(500).json({message:err});
+    public getHistoricUser(req: express.Request, res: express.Response) {
+        let response: Array<{
+            userId: String, userName: String, userIdVersus: String, userNameVersus: String,
+            quizId: String, scoreUser: Number, scoreVersus: number, result: String
+        }> = [];
+        let challengerUserName: String = "", challengedUserName: string = "";
+        ChallPlayer.find({}).or([{ challengedId: req.params.userId }, { challengerId: req.params.userId }]).exec((err, results) => {
+            if (err) {
+                res.status(500).json({ message: err });
             }
-            else{
-                if(result==null || result.length==0){
-                    res.status(404).json({message:"ressource not found"});
+            else {
+                if (results == null || results.length == 0) {
+                    res.status(404).json({ message: "ressource not found" });
                 }
                 else {
-                    res.status(200).json(result);
+                    results.forEach(element => {
+                        User.findOne({}).where("_id").equals(element["challengerId"]).exec((err, challengerName) => {
+                            if (err) {
+                                res.status(500).json({ message: err });
+                            }
+                            else
+                                if (challengerName == null)
+                                    res.status(404).json({ message: "resource not found" });
+
+                                else {
+                                    challengerUserName = challengerName['username'];
+                                    User.findOne({}).where("_id").equals(element["challengedId"]).exec((err, challengedName) => {
+                                        if (err) {
+                                            res.status(500).json({ message: err });
+                                        }
+                                        else
+                                            if (challengedName == null)
+                                                res.status(404).json({ message: "resource not found" });
+                                            else {
+                                                if (element["challengerId"] == req.params.userId) {
+                                                    response.push({
+                                                        userId: element["challengerId"], userName: challengerUserName,
+                                                        userIdVersus: element["challengedId"], userNameVersus: challengedUserName,
+                                                        quizId: element["quizId"],
+                                                        scoreUser: element["scoreChallenger"], scoreVersus: element["scoreChallenged"]
+                                                        , result: element["resultChallenger"]
+                                                    })
+                                                }
+                                                else {
+
+                                                    response.push({
+                                                        userId: element["challengedId"], userName: challengedUserName,
+                                                        quizId: element["quizId"]
+                                                        ,
+                                                        userIdVersus: element["challengerId"], userNameVersus: challengerUserName,
+                                                        scoreUser: element["scoreChallenged"], scoreVersus: element["scoreChallenged"]
+                                                        , result: element["resultChallenged"]
+                                                    })
+                                                }
+                                            }
+                                    });
+
+                                }
+                        })
+                    }); 
+                    var delay = ( function() {
+                        var timer:any = 0;
+                        return function(_callback:any, ms:any) {
+                            clearTimeout (timer);
+                            timer = setTimeout(_callback, ms);
+                        };
+                    })();
+                    delay(function(){
+                        
+                    res.status(200).json(response);
+                    }, 1000 ); // end delay
                 }
             }
         });
     }
+    
     public challengeAfriend(req: express.Request, res: express.Response) {
-        ChallPlayer.findOne({}).where("challengedId").equals(req.body.challengedId).where("challengerId").equals(req.body.challengerId)
-            .where("result").nin(["won", "lost"]).exec((err, challenged) => {
-
+        if (req.params.action === "launchAChallenge") {
+            req.body.resultChallengedId = "In Progess";
+            req.body.resultChallengerId = "In Progess";
+            let challfriend = new ChallPlayer(req.body);
+            challfriend.save((err, result) => {
                 if (err) {
-                    res.json(err);
+                    res.status(500).json({ message: err });
                 }
                 else
-                    if (challenged == null) {
-                        req.body.result = "in Progress";
-                        let challenge = new ChallPlayer(req.body);
-                        challenge.save((err, result) => {
-                            if (err)
-                                res.status(500).json(err);
-                            else {
-                                ChallPlayer.findOne({}).where("challengerId").equals(req.body.challengedId).where("challengedId").equals(req.body.challengerId)
-                                    .where("result").nin(["won", "lost"]).exec((err, challenged2) => {
-                                        if (err)
-                                            res.status(500).json(err);
-                                        else {
-                                            if (challenged2 == null) {
-
-                                                res.status(202).json({ message: "request accepted" });
-                                            }
-                                            else {
-                                                if (+challenged2["score"] < +req.body.score) {
-                                                    ChallPlayer.findOneAndUpdate({
-                                                        challengedId: req.body.challengedId,
-                                                        challengerId: req.body.challengerId,
-                                                        quizId: req.body.quizId,
-                                                        result: "in Progress"
-                                                    }, { result: "won" }, (err, res1) => {
-                                                        if (err) {
-                                                            res.status(500).json(err);
-                                                        }
-                                                        else {
-                                                            ChallPlayer.findOneAndUpdate({
-                                                                challengedId: req.body.challengerId,
-                                                                challengerId: req.body.challengedId,
-                                                                quizId: req.body.quizId,
-                                                                result: "in Progress"
-                                                            }, { result: "lose" }, (err, res1) => {
-                                                                if (err)
-                                                                    res.status(500).json({ message: err });
-                                                                else {
-
-                                                                    User.findOneAndUpdate({ _id: req.body.challengedId }, { $inc: { "scores.score_global": 10 } }).exec((err, result) => {
-                                                                        if (err) {
-                                                                            res.status(500).json({ message: err });
-                                                                        }
-                                                                        else
-                                                                            res.status(201).json({ message: "result updated" });
-                                                                    });
-                                                                }
-
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                                else if (+challenged2["score"] > +req.body.score) {
-                                                    ChallPlayer.findOneAndUpdate({
-                                                        challengedId: req.body.challengerId,
-                                                        challengerId: req.body.challengedId,
-                                                        quizId: req.body.quizId,
-                                                        result: "in Progress"
-                                                    }, { result: "won" }, (err, res1) => {
-                                                        if (err) {
-                                                            res.status(500).json(err);
-                                                        }
-                                                        else {
-                                                            ChallPlayer.findOneAndUpdate({
-                                                                challengedId: req.body.challengedId,
-                                                                challengerId: req.body.challengerId,
-                                                                quizId: req.body.quizId,
-                                                                result: "in Progress"
-                                                            }, { result: "lose" }, (err, res1) => {
-                                                                if (err)
-                                                                    res.status(500).json({ message: err });
-                                                                else
-                                                                    User.findOneAndUpdate({ _id: req.body.challengerId }, { $inc: { "scores.score_global": 10 } }).exec((err, result) => {
-                                                                        if (err) {
-                                                                            res.status(500).json({ message: err });
-                                                                        }
-                                                                        else
-                                                                            res.status(201).json({ message: "result updated" });
-                                                                    });
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                                else {
-                                                    ChallPlayer.findOneAndUpdate({
-                                                        challengedId: req.body.challengerId,
-                                                        challengerId: req.body.challengedId,
-                                                        quizId: req.body.quizId,
-                                                        result: "in Progress"
-                                                    }, { result: "lose" }, (err, res1) => {
-                                                        if (err) {
-                                                            res.status(500).json(err);
-                                                        }
-                                                        else {
-                                                            ChallPlayer.findOneAndUpdate({
-                                                                challengedId: req.body.challengedId,
-                                                                challengerId: req.body.challengerId,
-                                                                quizId: req.body.quizId,
-                                                                result: "in Progress"
-                                                            }, { result: "lose" }, (err, res1) => {
-                                                                if (err)
-                                                                    res.status(500).json({ message: err });
-                                                                else
-                                                                    res.status(201).json({ message: "result updated" });
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        }
-
-                                    });
-                            }
-                        });
+                    res.status(201).json(result);
+            });
+        }
+        else {
+            ChallPlayer.findOne({}).where("_id").equals(req.body._id).exec((err, challplayer) => {
+                if (err) {
+                    res.status(500).json({ message: err })
+                }
+                else
+                    if (challplayer == null) {
+                        res.status(404).json({ message: "ressource not found" });
                     }
                     else {
-                        res.status(202).json({ message: "request accepted" });
+                        if (+challplayer["scoreChallenger"] > +req.body.scoreChallenged) {
+                            ChallPlayer.findOneAndUpdate({ _id: challplayer["_id"] },
+                                { resultChallenger: "Won", resultChallenged: "Lost", scoreChallenged: req.body.scoreChallenged })
+                                .exec((err, results) => {
+                                    if (err)
+                                        res.status(500).json({ message: err });
+                                    else
+                                        res.status(201).json(results);
+                                });
+                        }
+                        else if (+challplayer["scoreChallenger"] < +req.body.scoreChallenged) {
+                            ChallPlayer.findOneAndUpdate({ _id: challplayer["_id"] },
+                                { resultChallenger: "Lost", resultChallenged: "Won", scoreChallenged: req.body.scoreChallenged })
+                                .exec((err, results) => {
+                                    if (err)
+                                        res.status(500).json({ message: err });
+                                    else
+                                        res.status(201).json(results);
+                                });
+                        }
+                        else {
+                            ChallPlayer.findOneAndUpdate({ _id: challplayer["_id"] },
+                                { resultChallenger: "Draw", resultChallenged: "Draw", scoreChallenged: req.body.scoreChallenged })
+                                .exec((err, results) => {
+                                    if (err)
+                                        res.status(500).json({ message: err });
+                                    else
+                                        res.status(201).json(results);
+                                });
+                        }
                     }
-            }
-            );
+            })
+        }
     }
-    public addDailyQuiz(req: express.Request, res: express.Response) {
+    public addDaily_WeeklyQuiz(req: express.Request, res: express.Response) {
         let challenge = new Challenge(req.body);
         challenge.save((err, result) => {
             if (err) {

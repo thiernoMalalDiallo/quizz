@@ -99,7 +99,7 @@ export class ChallengeController {
             })
         }
     }
-    public addDailyQuiz(req: express.Request, res: express.Response) {
+    public addDaily_WeeklyQuiz(req: express.Request, res: express.Response) {
         let challenge = new Challenge(req.body);
         challenge.save((err, result) => {
             if (err) {

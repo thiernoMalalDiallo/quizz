@@ -11,7 +11,7 @@ export class RoutesChallenge {
         get(this.challengeController.getHistoricUser);
         
         app.route("/challenges").
-        post(this.challengeController.addDailyQuiz);
+        post(this.challengeController.addDaily_WeeklyQuiz);
 
         app.route("/challenges/:type").
         get(this.challengeController.getChallenges)

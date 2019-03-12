@@ -3,7 +3,7 @@ export class RoutesScoreEndPlay{
     public scoreEndPlayController:ScoreEndPlayController = new ScoreEndPlayController();
     public routes(app:any){
         
-        app.route('/end-play')
+        app.route('scores/end-play/:userId')
         .post(this.scoreEndPlayController.saveScorePlay);
     }
 }

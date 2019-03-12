@@ -210,10 +210,20 @@ achievements :
         "__v": 0
     }]
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3ebbd2d4b7a59bbb9f3559eea8cf3cfe8780a62a
 Challenge :
     défi du jour / semaine: get:
         Entrees : type(weekly/daily) / get :http://127.0.0.1:8000/challenges/:type 
         sortie : quizz du jour
+<<<<<<< HEAD
+    finir un challenge d'un ami(e): 
+        entrees : challengerId , challengedId, quizId, score: Post: http://127.0.0.1:8000/challenges/challengeAfriend
+        sortie : status(201) si un des deux amis n'a pas encors jouer 
+
+=======
     challenge d'un ami(e) accomplir defi lancer / accomplir defi accepter: 
 
         lancer:
@@ -222,6 +232,7 @@ Challenge :
         accomplir:
             entrees :quizId, scoreChallenged, action(accept): Post: http://127.0.0.1:8000/challenges/challengeAfriend/:action (u get id of the challenge with the notification )
             sortie : status(201) si un des deux amis n'a pas encors jouer 
+>>>>>>> 3ebbd2d4b7a59bbb9f3559eea8cf3cfe8780a62a
 
 Notifications :
     notifier : method : post, url : http://localhost:8000/notification
@@ -731,7 +742,7 @@ top score (meilleurs joueurs) :
 
 score_fin_de_jeux :
     mehod: post, url: http://localhost:8000/end-play
-    entrees: userId, quizId, score
+    entrees: userId, quizId, score, theme
     sortie: 200
 resumé profil user :
     Entrees : userId get: http://127.0.0.1:8000/users/:userId

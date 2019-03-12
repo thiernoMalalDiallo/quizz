@@ -80,6 +80,7 @@ export class ChallengeController {
             }
         });
     }
+    
     public challengeAfriend(req: express.Request, res: express.Response) {
         if (req.params.action === "launchAChallenge") {
             req.body.resultChallenged = "In Progess";

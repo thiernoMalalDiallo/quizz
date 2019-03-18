@@ -17,6 +17,7 @@ export const NotificationSchema = new Schema({
 
     subject : {
        type : String
-    }
+    },
+    p_jObject:Schema.Types.Mixed
     
 }); 

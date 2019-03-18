@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
-import { NotificationSchema } from '../mongooseModels/NotificationsModel';
 import express from 'express';
+import { NotificationSchema } from '../mongooseModels/NotificationsModel';
 
 const Notification = mongoose.model('Notification',NotificationSchema);
 

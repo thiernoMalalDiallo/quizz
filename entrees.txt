@@ -780,7 +780,7 @@ Friends :
                 }
             ]
     supprimer :
-        Entrees : id_user, id_ami // delete :http://127.0.0.1:8000/friendList/userId
+        Entrees : id_user, friendId // delete :http://127.0.0.1:8000/friendList/:userId
         sortie : deleted  (202) / not found(404)
     ajouter :
         entrees : userId, friendId/  post: http://127.0.0.1:8000/friendList/userId body: friendId

@@ -5,21 +5,23 @@ import { UserSchema } from './../mongooseModels/UserModel';
 import { ChallengeSchema } from "./../mongooseModels/ChallengeModel";
 import { ChallPlayerSchema } from "./../mongooseModels/ChallPlayer"
 import { QuizSchema } from './../mongooseModels/QuizModel';
+import { NotificationSchema } from '../mongooseModels/NotificationsModel';
 import { json } from 'body-parser';
 import { resolve } from 'url';
 const User = mongoose.model('User', UserSchema);
 const Challenge = mongoose.model('Challenge', ChallengeSchema);
 const ChallPlayer = mongoose.model("ChallPlayer", ChallPlayerSchema);
 const Quiz = mongoose.model("Quiz", QuizSchema);
+const Notification = mongoose.model('Notification', NotificationSchema);
 export class ChallengeController {
-    
+
     public getHistoricUser(req: express.Request, res: express.Response) {
         let response: Array<{
             userId: String, userName: String, userIdVersus: String, userNameVersus: String,
             quizId: String, scoreUser: Number, scoreVersus: number, result: String
         }> = [];
-        let challengedUsername:String="",challengerUsername:String="";
-        let getUser=function(userId:String){
+        let challengedUsername: String = "", challengerUsername: String = "";
+        let getUser = function (userId: String) {
             return User.findOne({}).where("_id").equals(userId).exec();
         }
         var delay = (function () {
@@ -39,16 +41,16 @@ export class ChallengeController {
                 }
                 else {
                     results.forEach(element => {
-                        var dat:any;
-                        Promise.all([getUser(element["challengerId"]),getUser(element["challengedId"])]).then((data:Array<any>)=>{
-                            if(data.length!=2)
-                                res.json({message:"resource not found"});
-                            else{
-                                challengerUsername=data[0]['username'];
-                                challengedUsername=data[1]['username'];
+                        var dat: any;
+                        Promise.all([getUser(element["challengerId"]), getUser(element["challengedId"])]).then((data: Array<any>) => {
+                            if (data.length != 2)
+                                res.json({ message: "resource not found" });
+                            else {
+                                challengerUsername = data[0]['username'];
+                                challengedUsername = data[1]['username'];
                             }
-                        }).then(()=>{
-                            
+                        }).then(() => {
+
                             if (element["challengerId"] == req.params.userId) {
                                 response.push({
                                     userId: element["challengerId"], userName: challengerUsername,
@@ -69,18 +71,18 @@ export class ChallengeController {
                                     , result: element["resultChallenged"]
                                 })
                             }
-                        
+
                         });
                     });
                     delay(function () {
 
                         res.status(200).json(response);
-                    }, results.length*400); // end delay
+                    }, results.length * 400); // end delay
                 }
             }
         });
     }
-    
+
     public challengeAfriend(req: express.Request, res: express.Response) {
         if (req.params.action === "launchAChallenge") {
             req.body.resultChallenged = "In Progess";
@@ -90,11 +92,48 @@ export class ChallengeController {
                 if (err) {
                     res.status(500).json({ message: err });
                 }
-                else
-                    res.status(201).json(result);
+                else {
+                    let notificationChallenger = new Notification({
+                        user_id_notified: req.body.challengerId,
+                        user_id_who_notify: req.body.challengedId,
+                        id_quiz: req.body.quizId,
+                        subject: "launch_challenge",
+                        p_jObject: result
+                    });
+                    notificationChallenger.save((err, notification) => {
+                        if (err) {
+                            res.json(err);
+                        }
+                        else {
+
+                            let notificationChallenged = new Notification({
+
+                                user_id_notified: req.body.challengedId,
+
+                                user_id_who_notify: req.body.challengerId,
+
+                                id_quiz: req.body.quizId,
+
+                                subject: "accepte_challenge",
+                                p_jObject: result
+
+                            });
+                            notificationChallenged.save((err, notification) => {
+                                if (err) {
+                                    res.json(err);
+                                }
+                                else {
+                                    res.status(201).json(result);
+                                }
+
+                            })
+                        }
+
+                    })
+                }
             });
         }
-        else {
+        else if (req.params.action === "accepteAChallenge") {
             ChallPlayer.findOne({}).where("_id").equals(req.body._id).exec((err, challplayer) => {
                 if (err) {
                     res.status(500).json({ message: err })
@@ -110,8 +149,42 @@ export class ChallengeController {
                                 .exec((err, results) => {
                                     if (err)
                                         res.status(500).json({ message: err });
-                                    else
-                                        res.status(201).json(results);
+                                    else {
+
+                                        let notificationChallenger = new Notification({
+                                            user_id_notified: req.body.challengerId,
+                                            user_id_who_notify: req.body.challengedId,
+                                            id_quiz: req.body.quizId,
+                                            subject: "result_challenge",
+                                            p_jObject: results
+                                        });
+                                        notificationChallenger.save((err, notification) => {
+                                            if (err) {
+                                                res.json(err);
+                                            }
+                                            else {
+
+                                                let notificationChallenged = new Notification({
+                                                    user_id_notified: req.body.challengedId,
+                                                    user_id_who_notify: req.body.challengerId,
+                                                    id_quiz: req.body.quizId,
+                                                    subject: "result_challenge",
+                                                    p_jObject: results
+
+                                                });
+                                                notificationChallenged.save((err, notification) => {
+                                                    if (err) {
+                                                        res.json(err);
+                                                    }
+                                                    else {
+                                                        res.status(201).json(results);
+                                                    }
+
+                                                })
+                                            }
+
+                                        })
+                                    }
                                 });
                         }
                         else if (+challplayer["scoreChallenger"] < +req.body.scoreChallenged) {
@@ -120,8 +193,42 @@ export class ChallengeController {
                                 .exec((err, results) => {
                                     if (err)
                                         res.status(500).json({ message: err });
-                                    else
-                                        res.status(201).json(results);
+                                    else {
+
+                                        let notificationChallenger = new Notification({
+                                            user_id_notified: req.body.challengerId,
+                                            user_id_who_notify: req.body.challengedId,
+                                            id_quiz: req.body.quizId,
+                                            subject: "result_challenge",
+                                            p_jObject: results
+                                        });
+                                        notificationChallenger.save((err, notification) => {
+                                            if (err) {
+                                                res.json(err);
+                                            }
+                                            else {
+
+                                                let notificationChallenged = new Notification({
+                                                    user_id_notified: req.body.challengedId,
+                                                    user_id_who_notify: req.body.challengerId,
+                                                    id_quiz: req.body.quizId,
+                                                    subject: "result_challenge",
+                                                    p_jObject: results
+
+                                                });
+                                                notificationChallenged.save((err, notification) => {
+                                                    if (err) {
+                                                        res.json(err);
+                                                    }
+                                                    else {
+                                                        res.status(201).json(results);
+                                                    }
+
+                                                })
+                                            }
+
+                                        })
+                                    }
                                 });
                         }
                         else {
@@ -130,10 +237,42 @@ export class ChallengeController {
                                 .exec((err, results) => {
                                     if (err)
                                         res.status(500).json({ message: err });
-                                    else
-                                        res.status(201).json(results);
+                                    else {
+
+                                        let notificationChallenger = new Notification({
+                                            user_id_notified: req.body.challengerId,
+                                            user_id_who_notify: req.body.challengedId,
+                                            id_quiz: req.body.quizId,
+                                            subject: "result_challenge",
+                                            p_jObject: results
+                                        });
+                                        notificationChallenger.save((err, notification) => {
+                                            if (err) {
+                                                res.json(err);
+                                            }
+                                            else {
+                                                let notificationChallenged = new Notification({
+                                                    user_id_notified: req.body.challengedId,
+                                                    user_id_who_notify: req.body.challengerId,
+                                                    id_quiz: req.body.quizId,
+                                                    subject: "result_challenge",
+                                                    p_jObject: results
+                                                });
+                                                notificationChallenged.save((err, notification) => {
+                                                    if (err) {
+                                                        res.json(err);
+                                                    }
+                                                    else {
+                                                        res.status(201).json(results);
+                                                    }
+                                                })
+                                            }
+
+                                        })
+                                    }
                                 });
                         }
+
                     }
             })
         }

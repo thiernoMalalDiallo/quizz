@@ -67,7 +67,7 @@ export class UserController {
     }
 
     public updateUser(req: express.Request, res: express.Response) {
-        if(req.body.password!=="" || req.body.password==null){
+        if(req.body.password!=="" || req.body.password!=null){
             req.body.password = Util.hashPassword(req.body.password);
         }
         User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true }, (err, user) => {

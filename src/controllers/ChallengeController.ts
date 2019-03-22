@@ -133,7 +133,7 @@ export class ChallengeController {
                 }
             });
         }
-        else if (req.params.action === "accepteAChallenge") {
+        else if (req.params.action === "acceptAChallenge") {
             ChallPlayer.findOne({}).where("_id").equals(req.body._id).exec((err, challplayer) => {
                 if (err) {
                     res.status(500).json({ message: err })

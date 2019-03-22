@@ -19,5 +19,9 @@ export const NotificationSchema = new Schema({
        type : String
     },
     p_jObject:Schema.Types.Mixed
-    
+    ,
+    date:{
+        type: Date,
+        default: Date.now
+    }
 }); 

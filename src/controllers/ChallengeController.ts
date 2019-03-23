@@ -93,14 +93,6 @@ export class ChallengeController {
                     res.status(500).json({ message: err });
                 }
                 else {
-                    let notificationChallenger = new Notification({
-                        user_id_notified: req.body.challengerId,
-                        user_id_who_notify: req.body.challengedId,
-                        id_quiz: req.body.quizId,
-                        subject: "launch_challenge",
-                        p_jObject: result
-                    });
-                    
                     let notificationChallenged = new Notification({
 
                         user_id_notified: req.body.challengedId,
@@ -276,7 +268,7 @@ export class ChallengeController {
                 res.status(500).json({ message: err });
             }
             else
-                res.status(201).json({ message: "daily quiz added" });
+                res.status(201).json({ message: " quiz added" });
         });
     }
     public getChallenges(req: express.Request, res: express.Response) {
@@ -301,6 +293,17 @@ export class ChallengeController {
 
             }
         });
+    }
+    public deleteHistoric(req:express.Request,res:express.Response){
+        ChallPlayer.remove({$or: [
+            {challengerId:req.params.userId},
+            {challengedId:req.params.userId}
+        ]}).exec((err)=>{
+            if(err)
+                res.status(500).json({message:err});
+            else
+                res.status(200).json({message:200});
+        })
     }
 
 }

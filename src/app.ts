@@ -5,6 +5,7 @@ import {RoutesQuiz} from "./Routes/RoutesQuiz";
 import {RoutesAchievement} from "./Routes/RoutesAchievements";
 import { RoutesFriendList } from "./Routes/RoutesFriendList";
 import { RoutesNotification } from "./Routes/RoutesNotification";
+import morgan from 'morgan';
 import mongoose from "mongoose";
 import { RoutesScore } from "./Routes/RoutesScore";
 import{RoutesChallenge} from "./Routes/RoutesChallenge";
@@ -46,6 +47,7 @@ class App {
         this.app.use(bodyParser.json());
         //support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(morgan('dev'))
         this.app.disable('etag');
     }
     

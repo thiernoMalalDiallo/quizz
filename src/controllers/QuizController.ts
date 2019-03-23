@@ -5,7 +5,6 @@ import express from 'express';
 import { Util } from './Utils';
 import { UserSchema } from './../mongooseModels/UserModel';
 import moment from 'moment';
-import * as fs from "fs"
 const path = require("path");
 const Quiz = mongoose.model('Quiz', QuizSchema);
 const User = mongoose.model('User', UserSchema);
@@ -14,15 +13,14 @@ export class QuizController {
     public utility: Util = new Util();
     // create a new quiz
     public addNewQuiz(req: express.Request, res: express.Response) {
-        req.body['image'] = "D:/nodeJs/quizz/src/assets/" + req.body['theme'] + ".png";
-        console.log(req.body)
-       /* let newQuiz = new Quiz(req.body);
+        req.body['image'] = req.file.filename;
+        let newQuiz = new Quiz(req.body);
         newQuiz.save((err, quiz) => {
             if (err) {
                 res.status(400).json(res);
             }
             res.status(200).json(quiz);
-        });*/
+        });
     }
     // get all guizs
     public getQuizs(req: express.Request, res: express.Response) {

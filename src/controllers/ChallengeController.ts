@@ -100,33 +100,25 @@ export class ChallengeController {
                         subject: "launch_challenge",
                         p_jObject: result
                     });
-                    notificationChallenger.save((err, notification) => {
+                    
+                    let notificationChallenged = new Notification({
+
+                        user_id_notified: req.body.challengedId,
+
+                        user_id_who_notify: req.body.challengerId,
+
+                        id_quiz: req.body.quizId,
+
+                        subject: "accepte_challenge",
+                        p_jObject: result
+
+                    });
+                    notificationChallenged.save((err, notification) => {
                         if (err) {
                             res.json(err);
                         }
                         else {
-
-                            let notificationChallenged = new Notification({
-
-                                user_id_notified: req.body.challengedId,
-
-                                user_id_who_notify: req.body.challengerId,
-
-                                id_quiz: req.body.quizId,
-
-                                subject: "accepte_challenge",
-                                p_jObject: result
-
-                            });
-                            notificationChallenged.save((err, notification) => {
-                                if (err) {
-                                    res.json(err);
-                                }
-                                else {
-                                    res.status(201).json(result);
-                                }
-
-                            })
+                            res.status(201).json(result);
                         }
 
                     })

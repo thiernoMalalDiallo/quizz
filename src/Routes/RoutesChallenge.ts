@@ -8,7 +8,8 @@ export class RoutesChallenge {
         post(this.challengeController.challengeAfriend);
 
         app.route("/challenges/getHistoric/:userId").
-        get(this.challengeController.getHistoricUser);
+        get(this.challengeController.getHistoricUser).
+        delete(this.challengeController.deleteHistoric);
         
         app.route("/challenges").
         post(this.challengeController.addDaily_WeeklyQuiz);

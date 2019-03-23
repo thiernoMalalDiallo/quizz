@@ -3,6 +3,8 @@ import express from 'express';
 import * as mongoose from 'mongoose';
 import { UserSchema } from './../mongooseModels/UserModel';
 import { UserClass } from 'models/UserClass';
+import { NotificationSchema } from '../mongooseModels/NotificationsModel';
+const Notification = mongoose.model('Notification', NotificationSchema);
 const User = mongoose.model('User', UserSchema);
 export class FriendListController {
     // add a friend to user's friend list
@@ -13,8 +15,27 @@ export class FriendListController {
             }
             if (result == null)
                 res.status(404).json({ message: "resource not found" });
-            else
+            else{
+                
+                let notificationChallenged = new Notification({
+                    user_id_notified: req.body.friendId,
+                    user_id_who_notify: req.params.userId,
+                    id_quiz: "no quiz",
+                    subject: "friend_Request",
+                    p_jObject: result
+
+                });
+                notificationChallenged.save((err, notification) => {
+                    if (err) {
+                        res.json(err);
+                    }
+                    else {
+                        
                 res.status(201).json({ message: "friend added" });
+                    }
+
+                })
+            }
         });
     }
 

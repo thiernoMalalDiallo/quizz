@@ -1,9 +1,10 @@
 import * as mongoose from 'mongoose';
 import { UserSchema } from '../mongooseModels/UserModel';
+import {QuizSchema} from '../mongooseModels/QuizModel'
 import {Util} from './Utils';
 import express from 'express';
 import moment from 'moment';
-
+const Quiz= mongoose.model("Quiz",QuizSchema);
 const User = mongoose.model('User',UserSchema);
 
 export class ScoreEndPlayController {
@@ -11,6 +12,10 @@ export class ScoreEndPlayController {
     public saveScorePlay(req: express.Request, res: express.Response) {
         req.body.last_played = moment().format('YYYY-MM-DD').toString() + "";
         // ENREGISTREMENT DU SCORE DU QUIZ
+        Quiz.findOneAndUpdate({_id:req.body.quizId},{$inc:{played:1}}).exec(err=>{
+            if(err)
+                res.status(500).json({message:err})
+        })
         User.findByIdAndUpdate(req.params.userId,{$push:{'scores.score_quiz':req.body}}).exec((err,score_quiz)=>{
             if(err){
                 res.status(500).json(err);

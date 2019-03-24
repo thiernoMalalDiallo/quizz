@@ -36,6 +36,10 @@ export const UserSchema = new Schema({
         }]
     },
     friendsList: [{
-        friendId: String
+        friendId: String,
+        accepted:{
+            type:Boolean,
+            default:false
+        }
     }]
 })

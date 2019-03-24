@@ -13,36 +13,76 @@ export class FriendListController {
             if (err) {
                 res.send(err);
             }
-            if (result == null)
-                res.status(404).json({ message: "resource not found" });
-            else{
-                
-                let notificationChallenged = new Notification({
-                    user_id_notified: req.body.friendId,
-                    user_id_who_notify: req.params.userId,
-                    id_quiz: "no quiz",
-                    subject: "friend_Request",
-                    p_jObject: result
+            else
+                if (result == null)
+                    res.status(404).json({ message: "resource not found" });
+                else {
+                    User.findOne().where("_id").equals(req.body.friendId).exec((err, result: UserClass) => {
+                        if (err)
+                            res.status(500).json({ message: err });
+                        else
+                            if (result == null)
+                                res.status(404).json({ message: "ressource not found" });
+                            else {
+                                let a = 0;
+                                result.friendsList.forEach(element => {
 
-                });
-                notificationChallenged.save((err, notification) => {
-                    if (err) {
-                        res.json(err);
-                    }
-                    else {
-                        
-                res.status(201).json({ message: "friend added" });
-                    }
+                                    if (element["friendId"] === req.params.userId) {
+                                        a++;
+                                    }
+                                });
 
-                })
-            }
+                                if (a != 0) {
+                                    User.findOneAndUpdate({ _id: req.params.userId, "friendsList.friendId": req.body.friendId },
+                                        { $set: { "friendsList": { "friendId": req.body.friendId, "accepted": true } } }).exec(
+                                            (err, result) => {
+                                                if (err)
+                                                    res.status(404).json({ message: "ressource not found" });
+                                                else
+                                                    User.findOneAndUpdate({ _id: req.body.friendId, "friendsList.friendId": req.params.userId },
+                                                        { $set: { "friendsList": { "friendId": req.params.userId, "accepted": true } } }).exec(
+                                                            (err, result) => {
+                                                                if (err)
+                                                                    res.status(404).json({ message: "ressource not found" });
+                                                                else
+                                                                    res.status(200).json({ message: "friend added" });
+                                                            }
+                                                        );
+                                            }
+                                        );
+
+                                }
+                                else {
+
+                                    let notificationChallenged = new Notification({
+                                        user_id_notified: req.body.friendId,
+                                        user_id_who_notify: req.params.userId,
+                                        id_quiz: "no quiz",
+                                        subject: "friend_Request",
+                                        p_jObject: result
+
+                                    });
+                                    notificationChallenged.save((err, notification) => {
+                                        if (err) {
+                                            res.json(err);
+                                        }
+                                        else {
+
+                                            res.status(201).json({ message: "friend added" });
+                                        }
+
+                                    })
+                                }
+                            }
+                    })
+                }
         });
     }
 
     //get user's friends by his id, and sending him userNmae picture ranking and score
     public getFriends(req: express.Request, res: express.Response) {
 
-        User.findOne({}).where('_id').equals(req.params.userId).select('friendsList').exec((err, friendList: UserClass) => {
+        User.findOne({}).where('_id').equals(req.params.userId).select('friendsList').exec((err, friendList) => {
             if (err) {
                 res.json(err);
             }
@@ -53,7 +93,9 @@ export class FriendListController {
             }
             else {
                 for (let i = 0; i < friendList.friendsList.length; i++) {
+                    if(friendList.friendsList[i]['accepted']==true){
                     tab.push(friendList.friendsList[i]['friendId']);
+                }
                 }
                 User.find({}).where('_id').in(tab).select('username picture ranking scores.score_global').exec((err, friends) => {
                     if (err) {
@@ -76,11 +118,11 @@ export class FriendListController {
                 res.status(500).json(err);
             }
 
-            if(user==null ){
-                res.status(404).json({message:"resource not found"});
+            if (user == null) {
+                res.status(404).json({ message: "resource not found" });
             }
             else
-            res.status(202).json(user);
+                res.status(202).json(user);
         })
     }
 

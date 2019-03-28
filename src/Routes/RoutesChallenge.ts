@@ -16,6 +16,8 @@ export class RoutesChallenge {
 
         app.route("/challenges/:type").
         get(this.challengeController.getChallenges)
- 
+
+        app.route("/challenges/historic/:userId").
+        delete(this.challengeController.deleteHistoric);
     }
 }

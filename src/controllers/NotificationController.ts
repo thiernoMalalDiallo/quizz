@@ -26,7 +26,7 @@ export class NotificationController {
                 res.json(err);
             }
             if(notifications.length == 0){
-                res.status(404).json({message: 'not Notifications'});
+                res.status(404).json({ status: 404, message: 'not Notifications'});
             }
             if(notifications.length != 0){
                 res.status(200).json(notifications);

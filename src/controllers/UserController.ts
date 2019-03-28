@@ -43,9 +43,13 @@ export class UserController {
     public getUserWithID(req: express.Request, res: express.Response) {
         User.findById(req.params.userId, (err, user) => {
             if (err) {
-                res.send(err);
+                res.status(500).send(err);
             }
-            res.json(user);
+            if(user===null || user.length()==0){
+                res.status(404).json({message: "ressource not found"})
+            }
+            else 
+             res.status(200).json(user);
         });
     }
     public authentication(req: express.Request, res: express.Response) {

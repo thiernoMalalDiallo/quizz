@@ -13,9 +13,11 @@ export class QuizController {
     public utility: Util = new Util();
     // create a new quiz
     public addNewQuiz(req: express.Request, res: express.Response) {
-        req.body['image'] = req.file.filename;
-        console.log(req.body)
-        let newQuiz = new Quiz(JSON.parse(req.body.request));
+        req.body.request=JSON.parse(req.body.request);
+        req.body.request.image = req.file.filename;
+        
+        console.log(req.body['request'])
+        let newQuiz = new Quiz(req.body.request);
         newQuiz.save((err, quiz) => {
             if (err) {
                 res.status(400).json(res);

@@ -122,7 +122,7 @@ export class FriendListController {
                 res.status(404).json({ message: "resource not found" });
             }
             else
-                res.status(202).json(user);
+                res.status(202).json({ message: "friend deleted" });
         })
     }
 

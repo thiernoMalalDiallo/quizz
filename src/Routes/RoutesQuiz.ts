@@ -13,7 +13,7 @@ var storage = multer.diskStorage({
       cb(null, path.join(__dirname, "../assets/"))
     },
     filename: function (req:express.Request, file, cb) {
-      cb(null, req.params.imageName+""+Date.now());
+      cb(null, req.params.imageName+""+Date.now()+".png");
     }
   })
    
